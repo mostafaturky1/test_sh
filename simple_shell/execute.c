@@ -5,7 +5,7 @@ int execute(char *arguments[], char *const environment[])
     int i = 0;
     int exe = 0;
 
-    // ls command execution
+    /* ls command execution*/
     if (_strcmp(arguments[0], "/bin/ls") == 0 || _strcmp(arguments[0], "ls") == 0)
     {
         exe = exec("/bin/ls",arguments,environment);
@@ -17,19 +17,19 @@ int execute(char *arguments[], char *const environment[])
         return 0;
     }
 
-    // return if the command is empty
-    //for (i = 0;arguments[i]; i++){
+    /* return if the command is empty*/
+    /*for (i = 0;arguments[i]; i++){*/
     if (_strcmp(arguments[i], "\n") == 0)
     {
         return 0;
     }
-   // }
+   
      if (_strlen(arguments[0]) == -1)
     {
         return 0;
     }
     
-    // if exit then end the application
+    /* if exit then end the application*/
     if (_strcmp(arguments[0], "exit") == 0) {
         return 1;
     }
@@ -60,27 +60,24 @@ int run(void){
     exited = isExist(command_length);
     if (exited)
     {
-         // free pointers
+         /* free pointers*/
         free(command);
         return exited;
     }
-        //empty command
-  //  is_space_command(command);
+        /*empty command*/
+  /*  is_space_command(command);*/
 
     if (command_length > 0 && command[command_length] == '\n')
     {
         command[command_length] = '\0';
     }
 
-    // break down commands 
     args = tokenize_command(command, &num);
 
     
 
-    // run checker
     exited = execute(args, NULL);
 
-    // free pointers
     free(command);
     free(args);
 
@@ -102,8 +99,8 @@ int is_space_command(const char *comamnd) {
     printf("%s", comamnd);
     for ( i = 0; comamnd[i] != '\0'; i++) {
         if (comamnd[i] != ' ') {
-            return 1; // Not a space command
+            return 1; /* Not a space command*/
         }
     }
-    return 0; // Consists only of space characters
+    return 0; /* Consists only of space characters*/
 }
