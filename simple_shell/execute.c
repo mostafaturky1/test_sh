@@ -54,6 +54,7 @@ int run(void){
     char *command; 
     int exited = 0;
     int num = 0;
+    int j;
 
     command = _getline();
     command_length = _strlen(command) - 1;
@@ -79,6 +80,10 @@ int run(void){
     exited = execute(args, NULL);
 
     free(command);
+    for (j = 0; args[j]; j++)
+    {
+        free(args[j]);
+    }
     free(args);
 
     return exited;
