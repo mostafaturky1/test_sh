@@ -72,7 +72,6 @@ int run(void){
     }
 
     args = tokenize_command(command, &num);
-
     exited = execute(args, NULL);
 
     free(command);
