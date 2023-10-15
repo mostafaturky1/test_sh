@@ -12,7 +12,6 @@ int execute(char *arguments[], char *const environment[])
         {
            perror("execve");
         }
-        free(arguments);
         return 0;
     }
 
