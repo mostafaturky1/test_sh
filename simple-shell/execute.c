@@ -73,17 +73,15 @@ int run(void){
 
     args = tokenize_command(command, &num);
 
-    
-
     exited = execute(args, NULL);
 
     free(command);
      for (j = 0; args[j]; j++)
      {
-         free(args[j]);
+         free(*args[j]);
      }
     
-    free(args);
+    free(*args);
     return exited;
 }
 
