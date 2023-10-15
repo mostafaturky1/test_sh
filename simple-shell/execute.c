@@ -51,7 +51,7 @@ int execute(char *arguments[], char *const environment[])
 int run(void){
     char **args;
     int command_length;
-    char *command; 
+    char *command = NULL; 
     int exited = 0;
     int num = 0;
     int j;
@@ -84,8 +84,8 @@ int run(void){
     {
         free(args[j]);
     }
+    
     free(args);
-
     return exited;
 }
 
