@@ -55,7 +55,6 @@ int run(void){
     int j;
 
     command = _getline();
-    //fflush(stdin);
     command_length = _strlen(command) - 1;
     exited = isExist(command_length);
     if (exited)
