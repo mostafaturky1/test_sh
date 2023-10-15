@@ -76,12 +76,11 @@ int run(void){
     exited = execute(args, NULL);
 
     free(command);
-     for (j = 0; args[j]; j++)
-     {
-         free(&args[j]);
-     }
-    
-    /*free(&args);*/
+    for (j = 0; j < num; j++) 
+    {
+        free(args[j]);
+    }
+    free(args);
     return exited;
 }
 
