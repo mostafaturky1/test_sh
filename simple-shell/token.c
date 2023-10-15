@@ -59,11 +59,13 @@ int exec(const char *command, char *const arguments[], char *const environment[]
     } else if (child_pid == 0) {
         execve(command, arguments, environment);
         perror("Exec failed");
+        free(arguments);
         exit(EXIT_FAILURE);
     } else {
         int status;
         wait(&status);
     }
+    free(arguments);
     return 0;
 }
 
