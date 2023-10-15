@@ -78,10 +78,10 @@ int run(void){
     free(command);
      for (j = 0; args[j]; j++)
      {
-         free(*args[j]);
+         free(&args[j]);
      }
     
-    free(*args);
+    /*free(&args);*/
     return exited;
 }
 
