@@ -2,7 +2,6 @@
 
 int execute(char *arguments[], char *const environment[])
 {
-    int i = 0;
     int exe = 0;
 
     /* ls command execution*/
@@ -18,8 +17,7 @@ int execute(char *arguments[], char *const environment[])
     }
 
     /* return if the command is empty*/
-    /*for (i = 0;arguments[i]; i++){*/
-    if (_strcmp(arguments[i], "\n") == 0)
+    if (_strcmp(arguments[0], "\n") == 0)
     {
         return 0;
     }
@@ -54,7 +52,7 @@ int run(void){
     char *command = NULL; 
     int exited = 0;
     int num = 0;
-   /* int j;*/
+    int j;
 
     command = _getline();
     command_length = _strlen(command) - 1;
@@ -80,10 +78,10 @@ int run(void){
     exited = execute(args, NULL);
 
     free(command);
-     /*for (j = 0; args[j]; j++)
+     for (j = 0; args[j]; j++)
      {
          free(args[j]);
-     }*/
+     }
     
     free(args);
     return exited;
