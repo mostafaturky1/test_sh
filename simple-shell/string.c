@@ -65,7 +65,6 @@ char *_strdup(const char *str)
         for (r = 0; str[r]; r++){
                 aaa[r] = str[r];
         }
-        free(aaa);
         return (aaa);
 }
 
