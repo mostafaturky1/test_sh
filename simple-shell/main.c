@@ -7,6 +7,7 @@ int main(void)
     /* if echo run the command once*/
     if (!isatty(STDIN_FILENO)){
         run();
+        free;
         return 0;
     }
 
@@ -16,12 +17,14 @@ int main(void)
         _print(prompt);
        if(run())
        {
+        free;
          break;
        }
         
     }
    
    printExit();
+   free;
     return 0;
 }
 
