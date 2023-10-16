@@ -1,13 +1,15 @@
 #include "shell.h"
 
-int execute(char *arguments[], char *const environment[])
+int execute(char *arguments[])
 {
     int exe = 0;
+    if (!arguments || !arguments[0])
+		return (0);
 
     /* ls command execution*/
     if (_strcmp(arguments[0], "/bin/ls") == 0 || _strcmp(arguments[0], "ls") == 0)
     {
-        exe = exec("/bin/ls",arguments,environment);
+        exe = exec("/bin/ls",arguments,environ);
         if ( exe == -1) 
         {
            perror("execve");
@@ -50,6 +52,7 @@ int run(void){
     char *command = NULL, **args;
     size_t command_size = 0;
     ssize_t command_length;
+    //int i;
     
     command_length = getline(&command, &command_size, stdin);    
     exited = isExist(command_length);
@@ -65,7 +68,10 @@ int run(void){
         command[command_length] = '\0';
     }
     args = tokenize_command(command, " \n");
-    exited = execute(args, NULL);
+    // for (i = 0; args[i]; i++){
+    // printf("%s",args[i]);
+    // }
+    exited = execute(args);
     free(command);
     for (j = 0; j < num; j++) 
     {

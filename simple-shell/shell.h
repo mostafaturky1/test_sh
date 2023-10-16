@@ -35,7 +35,7 @@ int _strcmp(char *s1, char *s2);
 char *_getline(void);
 char **tokenize_command(char *str, const char *delim);
 int exec(const char *command, char *const arguments[], char *const environment[]);
-int execute(char *arguments[], char *const environment[]);
+int execute(char *arguments[]);
 void print_env(void);
 int isExist(int command_length);
 int run(void);
@@ -43,5 +43,6 @@ void printExit(void);
 int is_space_command(const char *comamnd);
 char *_getenv(const char *name);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void contol_C(int sig_num);
 
 #endif

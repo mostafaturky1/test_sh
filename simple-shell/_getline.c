@@ -42,3 +42,12 @@ char *_getenv(const char *name)
 	}
 	return (0);
 }
+
+void contol_C(int sig_num)
+{
+    char *prompt = "\n($) ";
+	if (sig_num == SIGINT)
+	{
+		 _print(prompt);
+	}
+}
