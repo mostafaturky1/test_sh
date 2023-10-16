@@ -50,7 +50,6 @@ int run(void){
     char *command = NULL, **args;
     size_t command_size = 0;
     ssize_t command_length;
-    int i;
     
     command_length = getline(&command, &command_size, stdin);    
     exited = isExist(command_length);
@@ -66,9 +65,7 @@ int run(void){
         command[command_length] = '\0';
     }
     args = tokenize_command(command, " \n");
-    
     exited = execute(args, NULL);
-
     free(command);
     for (j = 0; j < num; j++) 
     {
