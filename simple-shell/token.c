@@ -27,7 +27,7 @@ char **tokenize_command(const char *command, int *num_args) {
         exit(EXIT_FAILURE);
     }
 
-    // Reset temp and token to the beginning of the command
+    /* Reset temp and token to the beginning of the command*/
     temp = _strdup(command);
     token = strtok(temp, " ");
 
