@@ -43,7 +43,6 @@ char **tokenize_command(const char *command, int *num_args) {
     }
 
     args[*num_args] = NULL;
-    free(strtok(temp, " "));
     free(token);
     free(temp);
     free(_strdup(command));
