@@ -27,8 +27,3 @@ void _print(char *str)
 		i++;
 	}
 }
-
-void printExit(void){
-    _print("exit");
-    _printchar('\n');
-}

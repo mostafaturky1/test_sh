@@ -3,31 +3,11 @@
 int execute(char *arguments[])
 {
     int exe = 0;
+    char *temp, *path;
+    list_path *head = NULL;
+
     if (!arguments || !arguments[0])
 		return (0);
-
-    /* ls command execution*/
-    if (_strcmp(arguments[0], "/bin/ls") == 0 || _strcmp(arguments[0], "ls") == 0)
-    {
-        exe = exec("/bin/ls",arguments,environ);
-        if ( exe == -1) 
-        {
-           perror("execve");
-        }
-        return 0;
-    }
-
-    /* return if the command is empty*/
-    if (_strcmp(arguments[0], "\n") == 0)
-    {
-        return 0;
-    }
-   
-     if (_strlen(arguments[0]) == -1)
-    {
-        return 0;
-    }
-    
     /* if exit then end the application*/
     if (_strcmp(arguments[0], "exit") == 0) {
         return 1;
@@ -38,21 +18,41 @@ int execute(char *arguments[])
         print_env();
         return 0;
     }
-    
-    _print("hsh: ");
-    _print(arguments[0]);
-    _print(" :command not found");
-    _printchar('\n');
+    temp = _getenv("PATH");
+    head = pathstrok(temp);
+    path =any_Path(arguments[0], head);
+    if (!path){
+        exe = exec(arguments[0],arguments,environ);
+        if ( exe == -1) 
+        {
+           perror("execve");
+        }
+        return 0;
+    }
+    else if (path){
+        free(arguments[0]);
+        arguments[0] = path;
+        exe = exec(arguments[0],arguments,environ);
+        if ( exe == -1) 
+        {
+           perror("execve");
+        }
+        return 0;
+    }
+
+    // _print("hsh: ");
+    // _print(arguments[0]);
+    // _print(" :command not found");
+    // _printchar('\n');
     
     return (0);
 }
 
 int run(void){
-    int  exited = 0, num = 0, j;
+    int  exited = 0;
     char *command = NULL, **args;
     size_t command_size = 0;
     ssize_t command_length;
-    //int i;
     
     command_length = getline(&command, &command_size, stdin);    
     exited = isExist(command_length);
@@ -68,15 +68,8 @@ int run(void){
         command[command_length] = '\0';
     }
     args = tokenize_command(command, " \n");
-    // for (i = 0; args[i]; i++){
-    // printf("%s",args[i]);
-    // }
     exited = execute(args);
-    free(command);
-    for (j = 0; j < num; j++) 
-    {
-        free(args[j]);
-    }
+    
     free(args);
     return exited;
 }

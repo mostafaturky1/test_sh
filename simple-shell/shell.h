@@ -39,10 +39,15 @@ int execute(char *arguments[]);
 void print_env(void);
 int isExist(int command_length);
 int run(void);
-void printExit(void);
 int is_space_command(const char *comamnd);
 char *_getenv(const char *name);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void contol_C(int sig_num);
+list_path *pathstrok(char *path);
+char *any_Path(char *filename, list_path *head);
+char *search_Path(char *name, char *sep, char *value);
+list_path *end_node(list_path **head, char *str);
+void free_Arguments(char **arv);
+void free_linked(list_path *head);
 
 #endif

@@ -22,7 +22,6 @@ int main(void)
         
     }
    
-   printExit();
     return 0;
 }
 

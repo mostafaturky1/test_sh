@@ -51,3 +51,19 @@ void contol_C(int sig_num)
 		 _print(prompt);
 	}
 }
+
+list_path *pathstrok(char *path)
+{
+	list_path *head = NULL;
+	char *token;
+	char *cpath = _strdup(path);
+
+	token = strtok(cpath, ":");
+	while (token)
+	{
+		head = end_node(&head, token);
+		token = strtok(NULL, ":");
+	}
+
+	return (head);
+}
