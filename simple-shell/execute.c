@@ -47,11 +47,12 @@ int execute(char *arguments[], char *const environment[])
 
 int run(void){
     char **args;
-    int command_length, exited = 0, num = 0, j;
+    int  exited = 0, num = 0, j;
     char *command = NULL; 
+    size_t command_size = 0;
+    ssize_t command_length;
     
-    command = _getline();
-    command_length = _strlen(command) - 1;
+    command_length = getline(&command, &command_size, stdin);
     exited = isExist(command_length);
     if (exited)
     {
@@ -60,8 +61,6 @@ int run(void){
         return exited;
     }
         /*empty command*/
-  /*  is_space_command(command);*/
-
     if (command_length > 0 && command[command_length] == '\n')
     {
         command[command_length] = '\0';
