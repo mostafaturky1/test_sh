@@ -72,10 +72,10 @@ int isExist(int command_length){
 
     if (command_length != -1)
     {
-        _printchar('\n');
+      
         return 0;
     }
-
+      _printchar('\n');
     return 1;
 }
 
