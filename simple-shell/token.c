@@ -69,7 +69,6 @@ int exec(const char *command, char *const arguments[], char *const environment[]
 
 void get_env(void)
 {
-    extern char **environ;
     char** env;
     for (env = environ; *env; env++)
     {

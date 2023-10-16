@@ -47,12 +47,9 @@ int execute(char *arguments[], char *const environment[])
 
 int run(void){
     char **args;
-    int command_length;
+    int command_length, exited = 0, num = 0, j;
     char *command = NULL; 
-    int exited = 0;
-    int num = 0;
-    int j;
-
+    
     command = _getline();
     command_length = _strlen(command) - 1;
     exited = isExist(command_length);
