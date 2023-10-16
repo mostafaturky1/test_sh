@@ -44,7 +44,8 @@ int exec(const char *command, char *const arguments[], char *const environment[]
         return -1;
     } else if (child_pid == 0) {
         execve(command, arguments, environment);
-        perror("Exec failed");
+        _print("hsh: ");
+        perror(arguments[0]);
         exit(EXIT_FAILURE);
     } else {
         int status;

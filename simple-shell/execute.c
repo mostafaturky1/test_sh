@@ -25,7 +25,7 @@ int execute(char *arguments[])
         exe = exec(arguments[0],arguments,environ);
         if ( exe == -1) 
         {
-           perror("execve");
+           perror(arguments[0]);
         }
         return 0;
     }
@@ -35,16 +35,10 @@ int execute(char *arguments[])
         exe = exec(arguments[0],arguments,environ);
         if ( exe == -1) 
         {
-           perror("execve");
+           perror(arguments[0]);
         }
         return 0;
     }
-
-    // _print("hsh: ");
-    // _print(arguments[0]);
-    // _print(" :command not found");
-    // _printchar('\n');
-    
     return (0);
 }
 
