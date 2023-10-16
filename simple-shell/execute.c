@@ -78,6 +78,7 @@ int run(void){
     {
         free(args[j]);
     }
+    free(tokenize_command(command,&num));
     free(args);
     return exited;
 }
