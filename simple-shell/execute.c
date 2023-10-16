@@ -33,7 +33,7 @@ int execute(char *arguments[], char *const environment[])
     
     if (_strcmp(arguments[0], "env") == 0)
     {
-        get_env();
+        print_env();
         return 0;
     }
     
@@ -46,13 +46,13 @@ int execute(char *arguments[], char *const environment[])
 }
 
 int run(void){
-    char **args;
     int  exited = 0, num = 0, j;
-    char *command = NULL; 
+    char *command = NULL, **args;
     size_t command_size = 0;
     ssize_t command_length;
+    int i;
     
-    command_length = getline(&command, &command_size, stdin);
+    command_length = getline(&command, &command_size, stdin);    
     exited = isExist(command_length);
     if (exited)
     {
@@ -65,8 +65,8 @@ int run(void){
     {
         command[command_length] = '\0';
     }
-
-    args = tokenize_command(command, &num);
+    args = tokenize_command(command, " \n");
+    
     exited = execute(args, NULL);
 
     free(command);
@@ -74,7 +74,6 @@ int run(void){
     {
         free(args[j]);
     }
-    free(tokenize_command(command,&num));
     free(args);
     return exited;
 }
