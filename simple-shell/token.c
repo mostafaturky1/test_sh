@@ -5,7 +5,7 @@ char **tokenize_command(const char *command, int *num_args) {
     char *token;
     char *temp = _strdup(command);
     int i = 0;
-    int j = 0;
+    int j;
 
     if (temp == NULL) {
         perror("strdup");
@@ -27,28 +27,34 @@ char **tokenize_command(const char *command, int *num_args) {
         exit(EXIT_FAILURE);
     }
 
-     token = strtok(_strdup(command), " ");
-    for (; i < *num_args; i++) {
+    // Reset temp and token to the beginning of the command
+    temp = _strdup(command);
+    token = strtok(temp, " ");
+
+    if (temp == NULL) {
+        perror("strdup");
+        exit(EXIT_FAILURE);
+    }
+
+    for (i = 0; i < *num_args; i++) {
         args[i] = _strdup(token);
         if (args[i] == NULL) {
             perror("strdup");
-            free(temp);
-            for (; j < i; j++) {
+            for ( j = 0; j < i; j++) {
                 free(args[j]);
             }
             free(args);
+            free(temp);
             exit(EXIT_FAILURE);
         }
         token = strtok(NULL, " ");
     }
 
     args[*num_args] = NULL;
-    free(token);
-    free(temp);
-    free(_strdup(command));
-    free(_strdup(token));
+    free(temp);  // Free temp only once
     return args;
 }
+
 
 int exec(const char *command, char *const arguments[], char *const environment[]){
     pid_t child_pid = fork();
