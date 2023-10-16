@@ -63,7 +63,7 @@ int run(void){
     }
     args = tokenize_command(command, " \n");
     exited = execute(args);
-    
+    free_Arguments(args);
     free(args);
     return exited;
 }
