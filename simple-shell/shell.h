@@ -26,20 +26,29 @@ typedef struct list_path
 	struct list_path *p;
 } list_path;
 
+/**
+ * struct mybuild - pointer to function with corresponding buildin command
+ * @name: buildin command
+ * @func: execute the buildin command
+ */
+typedef struct mybuild
+{
+	char *name;
+	void (*func)(char **);
+} mybuild;
+
 int _printchar(char c);
 void _print(char *str);
 char *_strdup(const char *str);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
-char *_getline(void);
 char **tokenize_command(char *str, const char *delim);
 int exec(const char *command, char *const arguments[], char *const environment[]);
 int execute(char *arguments[]);
-void print_env(void);
-int isExist(int command_length);
+void print_env(char **arv __attribute__ ((unused)));
+void isExist(int command_length, char *command);
 int run(void);
-int is_space_command(const char *comamnd);
 char *_getenv(const char *name);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void contol_C(int sig_num);
@@ -49,5 +58,8 @@ char *search_Path(char *name, char *sep, char *value);
 list_path *end_node(list_path **head, char *str);
 void free_Arguments(char **arv);
 void free_linked(list_path *head);
+void pro_Exit(char **arguments);
+int _converter(char *str);
+void(*isBuild(char **arv))(char **arv);
 
 #endif

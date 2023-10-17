@@ -54,7 +54,7 @@ int exec(const char *command, char *const arguments[], char *const environment[]
     return 0;
 }
 
-void print_env(void)
+void print_env(char **arv __attribute__ ((unused)))
 {
     char** env;
     for (env = environ; *env; env++)
@@ -62,7 +62,6 @@ void print_env(void)
         _print(*env);
         _printchar('\n');
     }
-    _printchar('\n');
 }
 
 /**
