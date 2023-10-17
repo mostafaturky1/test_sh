@@ -44,7 +44,7 @@ int execute(char *arguments[])
 
 int run(void){
     int  exited = 0;
-    char *command = NULL, **args;
+    char *command = NULL, **args = NULL;
     size_t command_size = 0;
     ssize_t command_length = 0;
     

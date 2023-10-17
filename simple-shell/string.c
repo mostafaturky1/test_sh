@@ -48,7 +48,7 @@ char *_strcpy(char *dest, char *src)
 */
 char *_strdup(const char *str)
 {
-        char *aaa;
+        char *aaa = NULL;
         int i, r = 0;
 
         if (str == NULL)
