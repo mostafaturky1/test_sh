@@ -5,7 +5,7 @@ void execute(char *arguments[])
     int exe = 0;
     char *temp = NULL, *path = NULL;
     list_path *head = NULL;
-    void (*exist)(char **);
+    void (*exist)(char **) = NULL;
 
     if (!arguments || !arguments[0])
     {
