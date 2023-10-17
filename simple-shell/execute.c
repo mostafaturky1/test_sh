@@ -9,6 +9,7 @@ void execute(char *arguments[])
 
     if (!arguments || !arguments[0])
     {
+        free_Arguments(arguments);
 		return;
     }
     temp = _getenv("PATH");
@@ -18,6 +19,7 @@ void execute(char *arguments[])
     if (exist)
     {
         exist(arguments);
+        free_linked(head);
         return;
     }
 
@@ -27,6 +29,8 @@ void execute(char *arguments[])
         {
            perror(arguments[0]);
         }
+        free_linked(head);
+        free_Arguments(arguments);
         return;
     }
     else if (path){
@@ -37,11 +41,10 @@ void execute(char *arguments[])
         {
            perror(arguments[0]);
         }
-        
+        free_Arguments(arguments);
+        free_linked(head);
         return ;
     }
-    free_Arguments(arguments);
-    free_linked(head);
     return;
 }
 

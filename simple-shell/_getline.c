@@ -136,5 +136,6 @@ void(*isBuild(char **arguments))(char **arv)
 				return (T[i].func);
 		}
 	}
+	free_Arguments(arguments);
 	return (0);
 }

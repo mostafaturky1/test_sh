@@ -1,7 +1,7 @@
 #include "shell.h"
 
 char **tokenize_command(char *str, const char *delim) {
-    int i, wn;
+    int i, wn = 0;
 	char **array = NULL;
 	char *token = NULL;
 	char *copy = NULL;
