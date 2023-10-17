@@ -41,25 +41,35 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * _strdup - duplicate to new memory space location
- * @str: char
- * Return: 0
-*/
-char *_strdup(const char *str)
+ * _strdup - returns a pointer to a newly allocated space in memory, which
+ * contains a copy of the string given as a parameter
+ * @str: pointer to a string
+ * Return: pointer to a string
+ */
+char *_strdup(char *str)
 {
-	char *aaa = NULL;
-	int i = 0, r = 0;
+	int i, l;
+	char *new;
 
-	if (str == NULL)
+	if (!str)
+	{
 		return (NULL);
-	while (str[i] != '\0')
-		i++;
-		aaa = malloc(sizeof(char) * (i + 1));
-		for (; str[r]; r++)
-		{
-			aaa[r] = str[r];
-		}
-		return (aaa);
+	}
+	for (l = 0; str[l] != '\0';)
+	{
+		l++;
+	}
+	new = malloc(sizeof(char) * l + 1);
+	if (!new)
+	{
+		return (NULL);
+	}
+	for (i = 0; i < l; i++)
+	{
+		new[i] = str[i];
+	}
+	new[l] = str[l];
+	return (new);
 }
 
 /**
