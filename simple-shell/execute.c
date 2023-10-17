@@ -53,7 +53,7 @@ int run(void){
     if (exited)
     {
          /* free pointers*/
-        /*free(command);*/
+        free(command);
         return exited;
     }
         /*empty command*/
