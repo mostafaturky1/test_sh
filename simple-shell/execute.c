@@ -43,7 +43,6 @@ int execute(char *arguments[])
 }
 
 int run(void){
-    int  exited = 0;
     char *command = NULL, **args;
     size_t command_size = 0;
     ssize_t command_length;
@@ -56,10 +55,10 @@ int run(void){
         command[command_length] = '\0';
     }
     args = tokenize_command(command, " \n");
-    exited = execute(args);
+    execute(args);
     free_Arguments(args);
     free(command);
-    return exited;
+    return (0);
 }
 
 void isExist(int command_length, char *command)
