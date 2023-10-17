@@ -13,8 +13,9 @@ char **tokenize_command(char *str, const char *delim)
 	int i, wn = 0;
 	char **array = NULL;
 	char *token;
-	char *copy = NULL;
+	char *copy;
 
+    copy = NULL;
 	copy = malloc(_strlen(str) + 1);
 	if (copy == NULL)
 	{
@@ -37,6 +38,7 @@ char **tokenize_command(char *str, const char *delim)
 	wn = 3;
 	while (token)
 	{
+        printf("%s", token);
 		token = strtok(NULL, delim);
 		array = _realloc(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
 		array[i] = _strdup(token);
