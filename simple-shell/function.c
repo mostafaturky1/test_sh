@@ -24,7 +24,7 @@ char *any_Path(char *filename, list_path *head)
 
 char *search_Path(char *name, char *sep, char *value)
 {
-	char *result;
+	char *result = NULL;
 	int l1, l2, l3, i, k;
 
 	l1 = _strlen(name);
