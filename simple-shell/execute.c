@@ -3,7 +3,7 @@
 int execute(char *arguments[])
 {
     int exe = 0;
-    char *temp, *path;
+    char *temp = NULL, *path = NULL;
     list_path *head = NULL;
     void (*exist)(char **);
 
@@ -18,6 +18,7 @@ int execute(char *arguments[])
     if (exist)
     {
         exist(arguments);
+        free(path);
         return (0);
     }
 
@@ -27,6 +28,7 @@ int execute(char *arguments[])
         {
            perror(arguments[0]);
         }
+        free(path);
         return 0;
     }
     else if (path){
@@ -37,8 +39,10 @@ int execute(char *arguments[])
         {
            perror(arguments[0]);
         }
+        free(path);
         return 0;
     }
+    free(path);
     return (0);
 }
 
