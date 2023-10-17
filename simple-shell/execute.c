@@ -40,7 +40,7 @@ void execute(char *arguments[])
         
         return ;
     }
-    free(path);
+    free_linked(head);
     return;
 }
 
