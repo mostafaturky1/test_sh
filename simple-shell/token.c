@@ -4,8 +4,8 @@ char **tokenize_command(char *str, const char *delim) {
     int i, wn;
 	char **array = NULL;
 	char *token = NULL;
-	char *copy =NULL;
-
+	char *copy = NULL;
+	
 	copy = malloc(_strlen(str) + 1);
 	if (copy == NULL)
 	{

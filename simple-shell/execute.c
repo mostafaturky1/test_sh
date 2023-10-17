@@ -40,6 +40,7 @@ void execute(char *arguments[])
         
         return ;
     }
+    free_Arguments(arguments);
     free_linked(head);
     return;
 }

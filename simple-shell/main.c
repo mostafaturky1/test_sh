@@ -22,7 +22,7 @@ int main(void)
     args = tokenize_command(command, " \n");
     execute(args);
     }
-    free_Arguments(args);
+   
     free(command);
     return 0;
 }
