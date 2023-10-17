@@ -52,7 +52,7 @@ int execute(char *arguments[])
 int run(void)
 {
 	int  exited = 0;
-	char *command = NULL, **args = NULL;
+	char *command = NULL, **args;
 	size_t command_size = 0;
 	ssize_t command_length = 0;
 
@@ -62,6 +62,7 @@ int run(void)
 	{
 		command[command_length] = '\0';
 	}
+    args = NULL;
 	args = tokenize_command(command, " \n");
 	exited = execute(args);
 	free_Arguments(args);
