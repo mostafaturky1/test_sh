@@ -6,7 +6,7 @@ int main(void)
     char *command = NULL, **args = NULL;
     size_t command_size = 0;
     ssize_t command_length = 0;
-
+    signal(SIGINT,contol_C);
     while (1)
     {
     if (isatty(STDIN_FILENO))
