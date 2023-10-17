@@ -38,13 +38,13 @@ char **tokenize_command(char *str, const char *delim)
 	wn = 3;
 	while (token)
 	{
-        printf("%s", token);
 		token = strtok(NULL, delim);
 		array = _realloc(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
 		array[i] = _strdup(token);
 		i++;
 		wn++;
 	}
+    free(token);
 	free(copy);
 	return (array);
 }
