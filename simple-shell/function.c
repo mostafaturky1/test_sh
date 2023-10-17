@@ -36,20 +36,17 @@ char *search_Path(char *name, char *sep, char *value)
 		return (NULL);
 
 	for (i = 0; name[i]; i++)
-	
 		result[i] = name[i];
-		k = i;
-	
+	k = i;
+
 	for (i = 0; sep[i]; i++)
-	
 		result[k + i] = sep[i];
 	k = k + i;
-	
+
 	for (i = 0; value[i]; i++)
-	
 		result[k + i] = value[i];
 		k = k + i;
-	
+
 	result[k] = '\0';
 
 	return (result);
