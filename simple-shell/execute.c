@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int execute(char *arguments[])
+void execute(char *arguments[])
 {
     int exe = 0;
     char *temp = NULL, *path = NULL;
@@ -9,7 +9,7 @@ int execute(char *arguments[])
 
     if (!arguments || !arguments[0])
     {
-		return (0);
+		return;
     }
     temp = _getenv("PATH");
     head = pathstrok(temp);
@@ -18,7 +18,7 @@ int execute(char *arguments[])
     if (exist)
     {
         exist(arguments);
-        return (0);
+        return;
     }
 
     else if (!path){
@@ -27,7 +27,7 @@ int execute(char *arguments[])
         {
            perror(arguments[0]);
         }
-        return 0;
+        return;
     }
     else if (path){
         free(arguments[0]);
@@ -37,29 +37,9 @@ int execute(char *arguments[])
         {
            perror(arguments[0]);
         }
-        return 0;
+        return ;
     }
-    return (0);
-}
-
-int run(void){
-    int  exited = 0;
-    char *command = NULL, **args = NULL;
-    size_t command_size = 0;
-    ssize_t command_length = 0;
-    
-    command_length = getline(&command, &command_size, stdin);    
-    isExist(command_length, command);
-    
-    if (command_length > 0 && command[command_length] == '\n')
-    {
-        command[command_length] = '\0';
-    }
-    args = tokenize_command(command, " \n");
-    exited = execute(args);
-    free_Arguments(args);
-    free(command);
-    return exited;
+    return;
 }
 
 void isExist(int command_length, char *command)
