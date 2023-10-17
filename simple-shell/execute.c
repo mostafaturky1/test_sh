@@ -37,9 +37,10 @@ void execute(char *arguments[])
         {
            perror(arguments[0]);
         }
-        free(path);
+        
         return ;
     }
+    free(path);
     return;
 }
 
