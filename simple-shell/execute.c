@@ -18,7 +18,6 @@ int execute(char *arguments[])
     if (exist)
     {
         exist(arguments);
-        free(path);
         return (0);
     }
 
@@ -28,7 +27,6 @@ int execute(char *arguments[])
         {
            perror(arguments[0]);
         }
-        free(path);
         return 0;
     }
     else if (path){
@@ -39,10 +37,8 @@ int execute(char *arguments[])
         {
            perror(arguments[0]);
         }
-        free(path);
         return 0;
     }
-    free(path);
     return (0);
 }
 
