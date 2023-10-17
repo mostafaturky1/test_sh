@@ -65,6 +65,7 @@ int run(void){
     exited = execute(args);
     free_Arguments(args);
     free(args);
+    free(command);
     return exited;
 }
 
