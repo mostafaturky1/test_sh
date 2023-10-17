@@ -25,7 +25,7 @@ int main(void)
 		_print(prompt);
 		if (run())
 		{
-			break;
+			return (0);
 		}
 	}
 	return (0);
