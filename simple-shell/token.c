@@ -1,11 +1,20 @@
 #include "shell.h"
 
-char **tokenize_command(char *str, const char *delim) {
-    int i, wn = 0;
+/**
+ * tokenize_command - Tokenize a string using a specified delimiter.
+ * @str: The string to be tokenized.
+ * @delim: The delimiter used to split the string.
+ *
+ * Return: it return array of string
+ */
+
+char **tokenize_command(char *str, const char *delim)
+{
+	int i, wn = 0;
 	char **array = NULL;
 	char *token = NULL;
 	char *copy = NULL;
-	
+
 	copy = malloc(_strlen(str) + 1);
 	if (copy == NULL)
 	{
@@ -21,7 +30,7 @@ char **tokenize_command(char *str, const char *delim) {
 	token = strtok(copy, delim);
 	array = malloc((sizeof(char *) * 2));
 	array[0] = _strdup(token);
-	array[1] = NULL; 
+	array[1] = NULL;
 
 	i = 1;
 	wn = 3;
@@ -37,32 +46,56 @@ char **tokenize_command(char *str, const char *delim) {
 	return (array);
 }
 
-int exec(const char *command, char *const arguments[], char *const environment[]){
-    pid_t child_pid = fork();
+/**
+ * exec - Execute the given command and arguments.
+ * @command: The path to the program to be executed.
+ * @arguments: An array of strings representing command-line arguments.
+ * @env: An array of strings representing the execution env.
+ *
+ * This function creates a new process using fork.
+ *
+ * Return: 0 if the execution is successful; -1 in case of failure.
+ */
 
-    if (child_pid == -1) {
-        perror("Fork failed");
-        return -1;
-    } else if (child_pid == 0) {
-        execve(command, arguments, environment);
-        _print("hsh: ");
-        perror(arguments[0]);
-        exit(EXIT_FAILURE);
-    } else {
-        int status;
-        wait(&status);
-    }
-    return 0;
+int exec(const char *command, char *const arguments[], char *const env[])
+{
+	pid_t child_pid = fork();
+	int status;
+
+	if (child_pid == -1)
+	{
+		perror("Fork failed");
+		return (-1);
+	} else if (child_pid == 0)
+	{
+		execve(command, arguments, env);
+		_print("hsh: ");
+		perror(arguments[0]);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		wait(&status);
+	}
+	return (0);
 }
+
+/**
+ * print_env - Print the environment variables to the standard output.
+ * @arv: An array of strings (unused in this function).
+ *
+ * The function iterates through the environment variables and prints each one.
+ */
 
 void print_env(char **arv __attribute__ ((unused)))
 {
-    char** env;
-    for (env = environ; *env; env++)
-    {
-        _print(*env);
-        _printchar('\n');
-    }
+	char **env;
+
+	for (env = environ; *env; env++)
+	{
+		_print(*env);
+		_printchar('\n');
+	}
 }
 
 /**

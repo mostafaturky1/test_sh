@@ -1,5 +1,13 @@
 #include "shell.h"
 
+/**
+ * any_Path - Search 'filename' in 'head' dirs.
+ * @filename: The file to search.
+ * @head: List of directories.
+ * Return: Path if found, else NULL.
+ */
+
+
 char *any_Path(char *filename, list_path *head)
 {
 	struct stat st;
@@ -21,6 +29,16 @@ char *any_Path(char *filename, list_path *head)
 
 	return (NULL);
 }
+
+/**
+ * search_Path - Combine 'name', 'sep', and 'value' into a single string.
+ * @name: The first part of the resulting string.
+ * @sep: The separator to insert between parts.
+ * @value: The last part of the resulting string.
+ *
+ * This function creates a string by concatenating 'name', 'sep', and 'value'.
+ * Return: A new string or NULL on allocation failure.
+ */
 
 char *search_Path(char *name, char *sep, char *value)
 {
@@ -113,9 +131,12 @@ void free_linked(list_path *head)
 
 }
 /**
- * free_Arguments - frees the array of pointers arguments
- *@arv: array of pointers
+ * free_Arguments - Free memory allocated for an array of strings.
+ * @arguments: The array of strings to be freed.
+ *
+ * This function to releasing memory allocated for an array of strings.
  */
+
 void free_Arguments(char **arguments)
 {
 	int i;

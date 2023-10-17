@@ -33,13 +33,21 @@ char *_getenv(const char *name)
 	}
 	return (0);
 }
+/**
+ * contol_C - Handle SIGINT signal (Ctrl+C) by displaying a prompt.
+ * @sig_num: The signal number.
+ *
+ * This function is invoked when the SIGINT signal is received (Ctrl+C).
+ */
+
 
 void contol_C(int sig_num)
 {
-    char *prompt = "\n($) ";
+	char *prompt = "\n($) ";
+
 	if (sig_num == SIGINT)
 	{
-		 _print(prompt);
+		_print(prompt);
 	}
 }
 
@@ -80,7 +88,7 @@ void pro_Exit(char **arguments)
 }
 
 /**
- * converter - converts a string into an integer
+ * _converter - converts a string into an integer
  *@str: pointer to a string
  *Return: the integer
  */
@@ -106,36 +114,3 @@ int _converter(char *str)
 	return (integer);
 }
 
-/**
-* isBuild - checks if the command is a buildin
-* @arguments: array of arguments
-* Return: pointer to function that takes arv and returns void
-*/
-void(*isBuild(char **arguments))(char **arv)
-{
-	int i, j;
-	mybuild T[] = {
-		{"exit", pro_Exit},
-		{"env", print_env},
-		/*{"setenv", _setenv},
-		{"unsetenv", _unsetenv},*/
-		{NULL, NULL}
-	};
-
-	for (i = 0; T[i].name; i++)
-	{
-		j = 0;
-		if (T[i].name[j] == arguments[0][j])
-		{
-			for (j = 0; arguments[0][j]; j++)
-			{
-				if (T[i].name[j] != arguments[0][j])
-					break;
-			}
-			if (!arguments[0][j])
-				return (T[i].func);
-		}
-	}
-	free_Arguments(arguments);
-	return (0);
-}
