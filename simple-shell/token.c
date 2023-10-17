@@ -4,7 +4,7 @@ char **tokenize_command(char *str, const char *delim) {
     int i, wn;
 	char **array = NULL;
 	char *token = NULL;
-	char *copy = NULL;
+	char *copy =NULL;
 
 	copy = malloc(_strlen(str) + 1);
 	if (copy == NULL)
@@ -21,6 +21,7 @@ char **tokenize_command(char *str, const char *delim) {
 	token = strtok(copy, delim);
 	array = malloc((sizeof(char *) * 2));
 	array[0] = _strdup(token);
+	array[1] = NULL; 
 
 	i = 1;
 	wn = 3;
