@@ -8,7 +8,7 @@
 char *_getenv(const char *name)
 {
 	int i, j;
-	char *value;
+	char *value = NULL;
 
 	if (!name)
 		return (NULL);
@@ -31,6 +31,7 @@ char *_getenv(const char *name)
 			}
 		}
 	}
+    free(value);
 	return (0);
 }
 /**

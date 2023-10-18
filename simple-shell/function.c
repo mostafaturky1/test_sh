@@ -112,8 +112,8 @@ list_path *end_node(list_path **head, char *str)
 }
 
 /**
- * free_linked - frees a list_t
- *@head: pointer to our linked list
+ * free_linked - frees a list_path
+ *@head: pointer to our linked path
  */
 void free_linked(list_path *head)
 {
