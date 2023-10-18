@@ -79,7 +79,6 @@ char *search_Path(char *name, char *sep, char *value)
 */
 list_path *end_node(list_path **head, char *str)
 {
-
 	list_path *tmp;
 	list_path *new;
 
@@ -109,7 +108,6 @@ list_path *end_node(list_path **head, char *str)
 
 		tmp->p = new;
 	}
-
 	return (*head);
 }
 
