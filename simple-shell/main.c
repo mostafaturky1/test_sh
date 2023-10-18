@@ -32,7 +32,6 @@ int main(void)
     execute(args);
     free_Arguments(args);
 	}
-    
 	free(command);
 	return (0);
 }

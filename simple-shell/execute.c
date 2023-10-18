@@ -24,21 +24,16 @@ int execute(char *arguments[])
 	path = any_Path(arguments[0], head);
 	exist = isBuild(arguments);
 	if (exist)
-	{
 		exist(arguments);
 		return (0);
-	}
-	else if (!path)
-	{
+	if (!path)
 		exec(arguments[0], arguments, environ);
-	}
-	else if (path)
-	{
+        return (0);
+	if (path)
 		free(arguments[0]);
 		arguments[0] = path;
 		exec(arguments[0], arguments, environ);
-	}
-	return (0);
+	    return (0);
 }
 
 /**
