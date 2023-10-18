@@ -32,8 +32,8 @@ int main(void)
 	args = tokenize_command(command, " \n");
     head = execute(args);
     }
-     free_Arguments(args);
-	free_linked(head);
+    free(args);
+	free(head);
     free(command);
 	return (0);
 }
