@@ -10,23 +10,28 @@
 
 int main(void)
 {
-	char *prompt = "($) ";
+	char *command = NULL, **args;
+	size_t command_size = 0;
+	ssize_t command_length = 0;
 
-	/* if echo run the command once*/
-	if (!isatty(STDIN_FILENO))
+    while (1)
 	{
-		run();
-		return (0);
-	}
-	signal(SIGINT, contol_C);
-	/* run the application loop*/
-	while (1)
+	if (isatty(STDIN_FILENO))
+    {
+    _print("($) ");
+    }
+    signal(SIGINT, contol_C);
+	command_length = getline(&command, &command_size, stdin);
+	isExist(command_length, command);
+	if (command_length > 0 && command[command_length] == '\n')
 	{
-		_print(prompt);
-		if (run())
-		{
-			return (0);
-		}
+		command[command_length] = '\0';
 	}
+    args = NULL;
+	args = tokenize_command(command, " \n");
+    execute(args);
+	}
+    free_Arguments(args);
+	free(command);
 	return (0);
 }

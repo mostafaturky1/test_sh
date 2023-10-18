@@ -43,7 +43,7 @@ char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
-int run(void);
+// int run(void);
 char **tokenize_command(char *str, const char *delim);
 int exec(const char *command, char *const arguments[], char *const env[]);
 int execute(char *arguments[]);
