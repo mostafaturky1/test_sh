@@ -9,7 +9,7 @@
  * Return: Always returns 0.
  */
 
-int execute(char *arguments[])
+list_path *execute(char *arguments[])
 {
 	char *temp = NULL, *path = NULL;
 	list_path *head = NULL;
@@ -24,17 +24,24 @@ int execute(char *arguments[])
 	path = any_Path(arguments[0], head);
 	exist = isBuild(arguments);
 	if (exist)
+	{
 		exist(arguments);
 		return (0);
-	if (!path)
+	}
+	else if (!path)
+	{
 		exec(arguments[0], arguments, environ);
-        return (0);
-	if (path)
+	}
+	else if (path)
+	{
 		free(arguments[0]);
 		arguments[0] = path;
 		exec(arguments[0], arguments, environ);
-	    return (0);
+	}
+	return (0);
 }
+
+
 
 /**
  * isExist - Check for a command's existence or exit condition.

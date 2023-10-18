@@ -13,6 +13,7 @@ int main(void)
 	char *command = NULL, **args;
 	size_t command_size = 0;
 	ssize_t command_length = 0;
+    list_path *head = NULL;
 
     while (1)
 	{
@@ -29,9 +30,10 @@ int main(void)
 	}
     args = NULL;
 	args = tokenize_command(command, " \n");
-    execute(args);
-    free_Arguments(args);
-	}
-	free(command);
+    head = execute(args);
+    }
+     free_Arguments(args);
+	free_linked(head);
+    free(command);
 	return (0);
 }

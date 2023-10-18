@@ -45,7 +45,7 @@ int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char **tokenize_command(char *str, const char *delim);
 int exec(const char *command, char *const arguments[], char *const env[]);
-int execute(char *arguments[]);
+list_path *execute(char *arguments[]);
 void print_env(char **arv __attribute__ ((unused)));
 void isExist(int command_length, char *command);
 char *_getenv(const char *name);
