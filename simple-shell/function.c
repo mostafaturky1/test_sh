@@ -17,7 +17,6 @@ char *any_Path(char *filename, list_path *head)
 
 	while (tmp)
 	{
-
 		string = search_Path(tmp->dir, "/", filename);
 		if (stat(string, &st) == 0)
 		{
