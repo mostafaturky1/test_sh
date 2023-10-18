@@ -29,7 +29,7 @@ char **tokenize_command(char *str, const char *delim)
 	}
     copy[i] = '\0';
 	token = strtok(copy, delim);
-	if (token != NULL)  // Check if token is not NULL before using it.
+	if (token != NULL)
     {
         array = malloc((sizeof(char *) * 2));
         array[0] = _strdup(token);
