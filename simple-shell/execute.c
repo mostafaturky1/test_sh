@@ -11,10 +11,11 @@
 
 int execute(char *arguments[])
 {
+    
 	char *temp = NULL, *path = NULL;
 	list_path *head = NULL;
 	void (*exist)(char **);
-
+    free_linked(head);
 	if (!arguments || !arguments[0])
 	{
 		return (0);
@@ -38,7 +39,6 @@ int execute(char *arguments[])
 		arguments[0] = path;
 		exec(arguments[0], arguments, environ);
 	}
-    free(head);
 	return (0);
 }
 

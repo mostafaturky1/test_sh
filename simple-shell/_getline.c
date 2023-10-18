@@ -62,7 +62,7 @@ list_path *pathstrok(char *path)
 	{
 		head = end_node(&head, token);
 		token = strtok(NULL, ":");
-	}
+	}    
 	return (head);
 }
 
