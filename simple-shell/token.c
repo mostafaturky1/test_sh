@@ -46,7 +46,7 @@ char **tokenize_command(char *str, const char *delim)
             wn++;
         }
     }
-    free(token);
+    /*free(token);*/
 	free(copy);
 	return (array);
 }
