@@ -39,7 +39,6 @@ int execute(char *arguments[])
 		exec(arguments[0], arguments, environ);
 	}
 	return (0);
-    free_linked(head);
 }
 
 /**
