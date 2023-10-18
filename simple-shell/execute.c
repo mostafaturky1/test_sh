@@ -38,8 +38,8 @@ int execute(char *arguments[])
 		arguments[0] = path;
 		exec(arguments[0], arguments, environ);
 	}
-    free(head);
 	return (0);
+    free_linked(head);
 }
 
 /**
