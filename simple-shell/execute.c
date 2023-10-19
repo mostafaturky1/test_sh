@@ -1,15 +1,6 @@
 #include "shell.h"
 
-/**
- * execute - Execute a command with given arguments.
- * @arguments: An array of strings representing the command and its arguments.
- *
- * This function to executing a command with the specified arguments.
- *
- * Return: Always returns 0.
- */
 
-// Function to split a string into an array of strings based on a delimiter
 char** splitString(char* input, char* delimiter, int* count) {
     char* copy = _strdup(input);
     char* token = strtok(copy, delimiter);
@@ -27,7 +18,6 @@ char** splitString(char* input, char* delimiter, int* count) {
     return tokens;
 }
 
-// Function to get the paths from the PATH environment variable
 char** getExecutablePaths(void) {
 
 	int count;
@@ -44,7 +34,6 @@ char** getExecutablePaths(void) {
     return paths;
 }
 
-// Function to append a new part to an existing path
 char* append(char* existingPath, char* newPathPart) {
 	size_t existingLen;
 	size_t newLen;
@@ -85,6 +74,14 @@ char* append(char* existingPath, char* newPathPart) {
     return newPath;
 }
 
+/**
+ * execute - Execute a command with given arguments.
+ * @arguments: An array of strings representing the command and its arguments.
+ *
+ * This function to executing a command with the specified arguments.
+ *
+ * Return: Always returns 0.
+ */
 int execute(char *tokens[])
 {
 	char** executablePaths = NULL;
