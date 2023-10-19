@@ -141,8 +141,12 @@ void free_Arguments(char **arguments)
 {
 	int i;
 
+	if (arguments == NULL) return;
+
 	for (i = 0; arguments[i]; i++)
-    {
+    {	
+		if (arguments[i] == NULL) continue;
+		
 		free(arguments[i]);
     }
 	
