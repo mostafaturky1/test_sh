@@ -23,6 +23,8 @@ int execute(char *arguments[])
 	head = pathstrok(temp);
 	path = any_Path(arguments[0], head);
 	exist = isBuild(arguments);
+	free(head);
+	
 	if (exist)
 	{
 		exist(arguments);

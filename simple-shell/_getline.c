@@ -64,6 +64,7 @@ list_path *pathstrok(char *path)
 		token = strtok(NULL, ":");
 	}
 
+	free(cpath);
 	return (head);
 }
 

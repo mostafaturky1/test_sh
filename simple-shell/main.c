@@ -20,6 +20,7 @@ int main(void)
 	}
 	signal(SIGINT, contol_C);
 	/* run the application loop*/
+	
 	while (1)
 	{
 		_print(prompt);
@@ -28,5 +29,6 @@ int main(void)
 			break;
 		}
 	}
+
 	return (0);
 }
