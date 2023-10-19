@@ -42,33 +42,26 @@ char* append(char* existingPath, char* newPathPart) {
 
 
     if (existingPath == NULL) {
-        return _strdup(newPathPart); // If the existing path is NULL, simply return the new part
+        return _strdup(newPathPart); 
     }
 
     existingLen = _strlen(existingPath);
     newLen = _strlen(newPathPart);
 	
+    totalLen = existingLen + newLen + 2; 
 
-    // Calculate the length needed for the new path
-    totalLen = existingLen + newLen + 2; // +1 for the separator and +1 for the null terminator
-
-    // Allocate memory for the new path
     newPath = (char*)malloc(totalLen);
 
     if (newPath == NULL) {
-        // Handle memory allocation failure
         return NULL;
     }
 
-    // Copy the existing path to the new path
     _strcpy(newPath, existingPath);
 
-    // Add a separator if necessary
     if (existingPath[existingLen - 1] != '/') {
         _strcat(newPath, "/");
     }
 
-    // Append the new part
     _strcat(newPath, newPathPart);
 
     return newPath;
