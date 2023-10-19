@@ -44,7 +44,6 @@ int execute(char *tokens[])
 	}
 	else if (path)
 	{
-		//free(tokens[0]);
 		tokens[0] = path;
 		exec(tokens[0], tokens, environ);
 	}
