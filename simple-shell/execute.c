@@ -80,8 +80,6 @@ int execute(char *tokens[])
 	char** executablePaths = NULL;
 	int status = -1;
 
-	_print("execute");
-
 	if (!tokens || !tokens[0])
 	{
 		if (isatty(STDIN_FILENO))
