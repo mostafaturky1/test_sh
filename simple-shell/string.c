@@ -99,19 +99,16 @@ int _strcmp(char *s1, char *s2)
 char* _strcat(char* destination, const char* source) {
     char* ptr = destination;
 
-    // Move the pointer to the end of the destination string
     while (*ptr != '\0') {
         ptr++;
     }
 
-    // Copy characters from the source string to the destination string
     while (*source != '\0') {
         *ptr = *source;
         ptr++;
         source++;
     }
 
-    // Add the null terminator to the end of the destination string
     *ptr = '\0';
 
     return destination;

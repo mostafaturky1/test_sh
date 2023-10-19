@@ -25,7 +25,7 @@ char** getExecutablePaths(void) {
 
     char* path = _getenv("PATH");
     if (path == NULL) {
-        return NULL; // PATH environment variable is not set
+        return NULL; 
     }
 
     
