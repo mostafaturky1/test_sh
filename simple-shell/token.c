@@ -91,11 +91,6 @@ int exec(const char *command, char *const arguments[], char *const env[])
 	} else if (child_pid == 0)
 	{
 		execve(command, arguments, env);
-		_print("hsh: ");
-
-		if(arguments[0] != NULL){
-			perror(arguments[0]);
-		}
 		exit(EXIT_FAILURE);
 	}
 	else

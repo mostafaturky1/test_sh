@@ -9,11 +9,86 @@
  * Return: Always returns 0.
  */
 
+// Function to split a string into an array of strings based on a delimiter
+char** splitString(char* input, char* delimiter, int* count) {
+    char* copy = _strdup(input);
+    char* token = strtok(copy, delimiter);
+    char** tokens = NULL;
+    *count = 0;
+
+    while (token) {
+        (*count)++;
+        tokens = (char**)realloc(tokens, sizeof(char*) * (*count));
+        tokens[*count - 1] = _strdup(token);
+        token = strtok(NULL, delimiter);
+    }
+
+    free(copy);
+    return tokens;
+}
+
+// Function to get the paths from the PATH environment variable
+char** getExecutablePaths(void) {
+
+	int count;
+	char** paths = NULL;
+
+    char* path = _getenv("PATH");
+    if (path == NULL) {
+        return NULL; // PATH environment variable is not set
+    }
+
+    
+    paths = splitString(path, ":", &count);
+
+    return paths;
+}
+
+// Function to append a new part to an existing path
+char* append(char* existingPath, char* newPathPart) {
+	size_t existingLen;
+	size_t newLen;
+	size_t totalLen;
+	char* newPath = NULL;
+
+
+    if (existingPath == NULL) {
+        return _strdup(newPathPart); // If the existing path is NULL, simply return the new part
+    }
+
+    existingLen = _strlen(existingPath);
+    newLen = _strlen(newPathPart);
+	
+
+    // Calculate the length needed for the new path
+    totalLen = existingLen + newLen + 2; // +1 for the separator and +1 for the null terminator
+
+    // Allocate memory for the new path
+    newPath = (char*)malloc(totalLen);
+
+    if (newPath == NULL) {
+        // Handle memory allocation failure
+        return NULL;
+    }
+
+    // Copy the existing path to the new path
+    _strcpy(newPath, existingPath);
+
+    // Add a separator if necessary
+    if (existingPath[existingLen - 1] != '/') {
+        _strcat(newPath, "/");
+    }
+
+    // Append the new part
+    _strcat(newPath, newPathPart);
+
+    return newPath;
+}
+
 int execute(char *tokens[])
 {
-	char *temp = NULL, *path = NULL;
-	list_path *head = NULL;
-	void (*exist)(char **);
+	char** executablePaths = NULL;
+	int status = -1;
 
 	_print("execute");
 
@@ -27,26 +102,33 @@ int execute(char *tokens[])
 		return (0);
 	}
 
-	temp = _getenv("PATH");
-	head = pathstrok(temp);
-	path = any_Path(tokens[0], head);
-	exist = isBuild(tokens);
-	free(head);
+
+	executablePaths = getExecutablePaths();
+
+    if (executablePaths) {
+        int i;
+        for (i = 0; executablePaths[i] != NULL; i++) {
+           
+			 executablePaths[i] = append(executablePaths[i], "/");
+			 executablePaths[i] = append(executablePaths[i], tokens[0]);
+			
+
+			status = exec(executablePaths[i], tokens, environ);
+
+            free(executablePaths[i]);
+        }
+        free(executablePaths);
+    } 
 	
-	if (exist)
-	{
-		exist(tokens);
-		return (0);
-	}
-	else if (!path)
-	{
-		exec(tokens[0], tokens, environ);
-	}
-	else if (path)
-	{
-		tokens[0] = path;
-		exec(tokens[0], tokens, environ);
-	}
+	if(status){
+        //printf("PATH environment variable is not set.\n");
+		_print("hsh: command not found: ");
+		_print(tokens[0]);
+		_print("\n");
+
+
+    }
+	
 	return (0);
 }
 
@@ -71,8 +153,6 @@ int run(void)
 		free(line);
 		return 1;
 	}
-	
-	_print(line);
 
 	if (length > 0 && line[line_size] == '\n')
 	{
@@ -102,35 +182,4 @@ int isExist(int command_length, char *command)
 	if (command_length == -1) return 0;
 
 	return 1;
-}
-
-/**
-* isBuild - checks if the command is a buildin
-* @arguments: array of arguments
-* Return: pointer to function that takes arv and returns void
-*/
-void(*isBuild(char **arguments))(char **arv)
-{
-	int i, j;
-	mybuild T[] = {
-		{"exit", pro_Exit},
-		{"env", print_env},
-		{NULL, NULL}
-	};
-
-	for (i = 0; T[i].name; i++)
-	{
-		j = 0;
-		if (T[i].name[j] == arguments[0][j])
-		{
-			for (j = 0; arguments[0][j]; j++)
-			{
-				if (T[i].name[j] != arguments[0][j])
-					break;
-			}
-			if (!arguments[0][j])
-				return (T[i].func);
-		}
-	}
-	return (0);
 }

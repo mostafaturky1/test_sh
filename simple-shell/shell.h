@@ -55,6 +55,9 @@ int _strlen(char *s);
 /* string.c */
 int _strcmp(char *s1, char *s2);
 
+/* string.c */
+char* _strcat(char* destination, const char* source);
+
 /* execute.c */
 int run(void);
 
