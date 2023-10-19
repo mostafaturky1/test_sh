@@ -142,6 +142,8 @@ void free_Arguments(char **arguments)
 	int i;
 
 	for (i = 0; arguments[i]; i++)
+    {
 		free(arguments[i]);
+    }
 	free(arguments);
 }
