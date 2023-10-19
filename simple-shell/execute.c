@@ -111,7 +111,6 @@ int execute(char *tokens[])
     } 
 	
 	if(status){
-        //printf("PATH environment variable is not set.\n");
 		_print("hsh: command not found: ");
 		_print(tokens[0]);
 		_print("\n");
