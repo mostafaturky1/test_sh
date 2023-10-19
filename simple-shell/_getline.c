@@ -8,7 +8,7 @@
 char *_getenv(const char *name)
 {
 	int i, j;
-	char *value = NULL;
+	char *value;
 
 	if (!name)
 		return (NULL);
@@ -31,7 +31,6 @@ char *_getenv(const char *name)
 			}
 		}
 	}
-    free(value);
 	return (0);
 }
 /**
@@ -64,6 +63,7 @@ list_path *pathstrok(char *path)
 		head = end_node(&head, token);
 		token = strtok(NULL, ":");
 	}
+
 	return (head);
 }
 

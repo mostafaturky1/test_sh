@@ -27,26 +27,21 @@ char **tokenize_command(char *str, const char *delim)
 		copy[i] = str[i];
 		i++;
 	}
-    copy[i] = '\0';
 	token = strtok(copy, delim);
-	if (token != NULL)
-    {
-        array = malloc((sizeof(char *) * 2));
-        array[0] = _strdup(token);
-        array[1] = NULL;
+	array = malloc((sizeof(char *) * 2));
+	array[0] = _strdup(token);
+	array[1] = NULL;
 
-        i = 1;
-        wn = 3;
-        while (token)
-        {
-            token = strtok(NULL, delim);
-            array = _realloc(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
-            array[i] = _strdup(token);
-            i++;
-            wn++;
-        }
-    }
-    free(token);
+	i = 1;
+	wn = 3;
+	while (token)
+	{
+		token = strtok(NULL, delim);
+		array = _realloc(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
+		array[i] = _strdup(token);
+		i++;
+		wn++;
+	}
 	free(copy);
 	return (array);
 }

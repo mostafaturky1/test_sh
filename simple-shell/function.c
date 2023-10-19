@@ -17,6 +17,7 @@ char *any_Path(char *filename, list_path *head)
 
 	while (tmp)
 	{
+
 		string = search_Path(tmp->dir, "/", filename);
 		if (stat(string, &st) == 0)
 		{
@@ -78,6 +79,7 @@ char *search_Path(char *name, char *sep, char *value)
 */
 list_path *end_node(list_path **head, char *str)
 {
+
 	list_path *tmp;
 	list_path *new;
 
@@ -107,12 +109,13 @@ list_path *end_node(list_path **head, char *str)
 
 		tmp->p = new;
 	}
+
 	return (*head);
 }
 
 /**
- * free_linked - frees a list_path
- *@head: pointer to our linked path
+ * free_linked - frees a list_t
+ *@head: pointer to our linked list
  */
 void free_linked(list_path *head)
 {
