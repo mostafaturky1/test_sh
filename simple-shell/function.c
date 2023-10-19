@@ -145,5 +145,6 @@ void free_Arguments(char **arguments)
     {
 		free(arguments[i]);
     }
+	
 	free(arguments);
 }

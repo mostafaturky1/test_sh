@@ -9,36 +9,44 @@
  * Return: Always returns 0.
  */
 
-int execute(char *arguments[])
+int execute(char *tokens[])
 {
 	char *temp = NULL, *path = NULL;
 	list_path *head = NULL;
 	void (*exist)(char **);
 
-	if (!arguments || !arguments[0])
+	_print("execute");
+
+	if (!tokens || !tokens[0])
 	{
+		if (isatty(STDIN_FILENO))
+		{
+			_print("\n");
+		}
+
 		return (0);
 	}
+
 	temp = _getenv("PATH");
 	head = pathstrok(temp);
-	path = any_Path(arguments[0], head);
-	exist = isBuild(arguments);
+	path = any_Path(tokens[0], head);
+	exist = isBuild(tokens);
 	free(head);
 	
 	if (exist)
 	{
-		exist(arguments);
+		exist(tokens);
 		return (0);
 	}
 	else if (!path)
 	{
-		exec(arguments[0], arguments, environ);
+		exec(tokens[0], tokens, environ);
 	}
 	else if (path)
 	{
-		free(arguments[0]);
-		arguments[0] = path;
-		exec(arguments[0], arguments, environ);
+		//free(tokens[0]);
+		tokens[0] = path;
+		exec(tokens[0], tokens, environ);
 	}
 	return (0);
 }
@@ -54,20 +62,29 @@ int execute(char *arguments[])
 int run(void)
 {
 	int  exited = 0;
-	char *command = NULL, **args = NULL;
-	size_t command_size = 0;
-	ssize_t command_length = 0;
+	char *line = NULL, **tokens = NULL;
+	size_t line_size = 0;
+	ssize_t length = 0;
 
-	command_length = getline(&command, &command_size, stdin);
-	isExist(command_length, command);
-	if (command_length > 0 && command[command_length] == '\n')
-	{
-		command[command_length] = '\0';
+	line_size = getline(&line, &line_size, stdin);
+	
+	if (!isExist(line_size, line)){
+		free(line);
+		return 1;
 	}
-	args = tokenize_command(command, " \n");
-	exited = execute(args);
-	free_Arguments(args);
-	free(command);
+	
+	_print(line);
+
+	if (length > 0 && line[line_size] == '\n')
+	{
+		line[line_size] = '\0';
+	}
+
+	tokens = tokenize(line, " \n");
+	exited = execute(tokens);
+
+	free_Arguments(tokens);
+	free(line);
 	return (exited);
 }
 
@@ -79,18 +96,13 @@ int run(void)
  * This function checks the length of the command input. If the length is -1.
  */
 
-void isExist(int command_length, char *command)
+int isExist(int command_length, char *command)
 {
-		(void)command;
-	if (command_length == -1)
-	{
-		if (isatty(STDIN_FILENO))
-		{
-			_print("\n");
-			free(command);
-		}
-		exit(0);
-	}
+	if (command == NULL) return 0;
+
+	if (command_length == -1) return 0;
+
+	return 1;
 }
 
 /**

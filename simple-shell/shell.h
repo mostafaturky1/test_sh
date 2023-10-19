@@ -47,7 +47,7 @@ void _print(char *str);
 char *_strdup(char *str);
 
 /* string.c */
-char *_strcpy(char *dest, char *src);
+void _strcpy(char *dest, char *src);
 
 /* string.c */
 int _strlen(char *s);
@@ -59,7 +59,7 @@ int _strcmp(char *s1, char *s2);
 int run(void);
 
 /* token.c */
-char **tokenize_command(char *str, const char *delim);
+char **tokenize(char *str, const char *delim);
 
 /* token.c */
 int exec(const char *command, char *const arguments[], char *const env[]);
@@ -71,7 +71,7 @@ int execute(char *arguments[]);
 void print_env(char **arv __attribute__ ((unused)));
 
 /* execute.c */
-void isExist(int command_length, char *command);
+int isExist(int command_length, char *command);
 
 /* _getline.c */
 char *_getenv(const char *name);

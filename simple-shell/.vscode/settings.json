@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "istream": "c",
+        "string": "c",
+        "*.tcc": "c",
+        "streambuf": "c",
+        "__locale": "c",
+        "string_view": "c"
+    }
+}

@@ -8,42 +8,57 @@
  * Return: it return array of string
  */
 
-char **tokenize_command(char *str, const char *delim)
+char **tokenize(char *line, const char *delim)
 {
-	int i, wn = 0;
-	char **array = NULL;
+	int num_token = 0;
+	int i = 0;
+	int j = 0;
+	char **tokens = NULL;
 	char *token = NULL;
+	int maxTokenLength = 0;
 	char *copy = NULL;
 
-	copy = malloc(_strlen(str) + 1);
+	if (line == NULL || delim == NULL) return NULL;
+
+	copy = malloc(_strlen(line) + 1);
+
 	if (copy == NULL)
 	{
 		perror(_getenv("_"));
 		return (NULL);
 	}
-	i = 0;
-	while (str[i])
-	{
-		copy[i] = str[i];
-		i++;
-	}
-	token = strtok(copy, delim);
-	array = malloc((sizeof(char *) * 2));
-	array[0] = _strdup(token);
-	array[1] = NULL;
 
-	i = 1;
-	wn = 3;
-	while (token)
-	{
+	_strcpy(copy, line);
+
+	token = strtok(copy, delim);
+	while(token != NULL){
+	
+		num_token++;	
+		if(_strlen(token) > maxTokenLength) maxTokenLength = _strlen(token);
+
 		token = strtok(NULL, delim);
-		array = _realloc(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
-		array[i] = _strdup(token);
-		i++;
-		wn++;
+
 	}
+
+	tokens = (char **)malloc(num_token * sizeof(char *));
+	for (j = 0; j < num_token; j++) {
+        tokens[j] = (char *)malloc((maxTokenLength + 1) * sizeof(char));
+    }
+
+	token = strtok(copy, delim);
+    while (token != NULL)
+	{
+        _strcpy(tokens[i], token);
+        i++;
+        token = strtok(NULL, delim);
+		
+    }
+
+
+
+	free(token);
 	free(copy);
-	return (array);
+	return (tokens);
 }
 
 /**
@@ -61,6 +76,13 @@ int exec(const char *command, char *const arguments[], char *const env[])
 {
 	pid_t child_pid = fork();
 	int status;
+	if (command == NULL){
+		return (-1);
+	}
+
+	if (arguments == NULL){
+		return (-1);
+	}
 
 	if (child_pid == -1)
 	{
@@ -70,7 +92,10 @@ int exec(const char *command, char *const arguments[], char *const env[])
 	{
 		execve(command, arguments, env);
 		_print("hsh: ");
-		perror(arguments[0]);
+
+		if(arguments[0] != NULL){
+			perror(arguments[0]);
+		}
 		exit(EXIT_FAILURE);
 	}
 	else

@@ -15,9 +15,10 @@ int main(void)
 	/* if echo run the command once*/
 	if (!isatty(STDIN_FILENO))
 	{
-		run();
+		if(run()) _print("\n");
 		return (0);
 	}
+
 	signal(SIGINT, contol_C);
 	/* run the application loop*/
 	
