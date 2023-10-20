@@ -1,33 +1,6 @@
 #include "shell.h"
 
 /**
- * splitString - Splits a string into substrings using a delimiter.
- * @input: Input string to split.
- * @delimiter: Character used to split the input.
- * @count: Pointer to store the number of substrings.
- *
- * Return: An array of substrings.
- */
-
-char **splitString(char *input, char *delimiter, int *count)
-{
-	char *copy = _strdup(input);
-	char *token = strtok(copy, delimiter);
-	char **tokens = NULL;
-	*count = 0;
-
-	while (token)
-	{
-		(*count)++;
-		tokens = (char **)realloc(tokens, sizeof(char *) * (*count));
-		tokens[*count - 1] = _strdup(token);
-		token = strtok(NULL, delimiter);
-	}
-	free(copy);
-	return (tokens);
-}
-
-/**
  * getExecutablePaths - Retrieves executable paths from the PATH environment.
  *
  * This function extracts executable paths from the PATH environment variable,
@@ -38,7 +11,6 @@ char **splitString(char *input, char *delimiter, int *count)
 
 char **getExecutablePaths(void)
 {
-	int count;
 	char **paths = NULL;
 
 	char *path = _getenv("PATH");
@@ -47,7 +19,9 @@ char **getExecutablePaths(void)
 	{
 		return (NULL);
 	}
-	paths = splitString(path, ":", &count);
+
+	paths = tokenize(path, ":");
+
 	return (paths);
 }
 
@@ -122,23 +96,24 @@ int execute(char *tokens[])
 
 
 	executablePaths = getExecutablePaths();
-
+	
     if (executablePaths) {
         int i;
         for (i = 0; executablePaths[i] != NULL; i++) {
            
-			 temp = append(executablePaths[i], "/");
-			 free(temp);
+			temp = append(executablePaths[i], "/");
+			
 
-			 filePath = append(executablePaths[i], tokens[0]);
+			filePath = append(executablePaths[i], tokens[0]);
 
 			status = exec(filePath, tokens, environ);
 
-            free(executablePaths[i]);
-			free(filePath);
+			if (temp) free(temp);
+            if (executablePaths[i]) free(executablePaths[i]);
+			if (filePath) free(filePath);
         }
         
-		free(executablePaths);
+		if(executablePaths) free(executablePaths);
     } 
 	
 	if(status){
@@ -167,7 +142,7 @@ int run(void)
 	line_size = getline(&line, &line_size, stdin);
 	if (!isExist(line_size, line))
 	{
-		free(line);
+		if(line) free(line);
 		return (1);
 	}
 	if (length > 0 && line[line_size] == '\n')
@@ -179,7 +154,7 @@ int run(void)
 	exited = execute(tokens);
 
 	free_Arguments(tokens);
-	free(line);
+	if(line) free(line);
 	return (exited);
 }
 

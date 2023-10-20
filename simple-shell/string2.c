@@ -45,8 +45,8 @@ void free_Arguments(char **arguments)
     {	
 		if (arguments[i] == NULL) continue;
 		
-		free(arguments[i]);
+		if(arguments[i]) free(arguments[i]);
     }
 	
-	free(arguments);
+	if(arguments) free(arguments);
 }

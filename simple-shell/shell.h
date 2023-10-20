@@ -57,9 +57,6 @@ int isExist(int command_length, char *command);
 /* _getline.c */
 char *_getenv(const char *name);
 
-/* token.c */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-
 /* _getline.c */
 void contol_C(int sig_num);
 
