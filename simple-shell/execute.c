@@ -106,7 +106,9 @@ char *append(char *existingPath, char *newPathPart)
 int execute(char *tokens[])
 {
 	char **executablePaths = NULL;
+	char *filePath = NULL;
 	int status = -1;
+	char *temp=NULL;
 
 	if (!tokens || !tokens[0])
 	{
@@ -121,22 +123,25 @@ int execute(char *tokens[])
 
 	executablePaths = getExecutablePaths();
 
-	if (executablePaths)
-	{
-		int i;
+    if (executablePaths) {
+        int i;
+        for (i = 0; executablePaths[i] != NULL; i++) {
+           
+			 temp = append(executablePaths[i], "/");
+			 free(temp);
 
-		for (i = 0; executablePaths[i] != NULL; i++)
-		{
-			executablePaths[i] = append(executablePaths[i], "/");
-			executablePaths[i] = append(executablePaths[i], tokens[0]);
-			status = exec(executablePaths[i], tokens, environ);
+			 filePath = append(executablePaths[i], tokens[0]);
 
-			free(executablePaths[i]);
-		}
+			status = exec(filePath, tokens, environ);
+
+            free(executablePaths[i]);
+			free(filePath);
+        }
+        
 		free(executablePaths);
-	}
-	if (status)
-	{
+    } 
+	
+	if(status){
 		_print("hsh: command not found: ");
 		_print(tokens[0]);
 		_print("\n");
