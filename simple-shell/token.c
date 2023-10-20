@@ -36,7 +36,7 @@ char **tokenize(char *line, const char *delim)
 	}
 
 	tokens = (char **)malloc(num_token * sizeof(char *));
-	for (j = 0; j < num_token; j++)
+	for (j = 0; j <= num_token; j++)
 	{
 		tokens[j] = (char *)malloc((maxTokenLength + 1) * sizeof(char));
 	}
