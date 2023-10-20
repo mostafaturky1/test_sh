@@ -49,6 +49,8 @@ char **tokenize(char *line, const char *delim)
 	}
 
 	printf("%d tokens\n", num_token);
+
+	tokens[num_token] = NULL;
 	free(token);
 	free(copy);
 	return (tokens);
@@ -86,7 +88,6 @@ int exec(const char *command, char *const arguments[], char *const env[])
 		return (-1);
 	} else if (child_pid == 0)
 	{
-		printf("-----execve: %s %s %s ---------------------------\n", command, arguments[0], arguments[1]);
 		execve(command, arguments, env);
 		exit(EXIT_FAILURE);
 	}

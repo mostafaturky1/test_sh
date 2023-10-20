@@ -102,20 +102,22 @@ int execute(char *tokens[])
 	executablePaths = getExecutablePaths();
 	
 	printf("Paths done\n");
-    if (executablePaths) {
-        for (i = 0; executablePaths[i] != NULL; i++) {
-           
-			filePath = append(executablePaths[i], tokens[0]);
-
-			printf("Path: %s\n", filePath);
-			status = exec(filePath, tokens, environ);
-
-            free(executablePaths[i]);
-			free(filePath);
-        }
-        
-		free(executablePaths);
+    if (!executablePaths) {
+        return (-1);
     } 
+
+	for (i = 0; executablePaths[i] != NULL; i++) {
+           
+		filePath = append(executablePaths[i], tokens[0]);
+
+		printf("Path: %s\n", filePath);
+		status = exec(filePath, tokens, environ);
+
+		free(executablePaths[i]);
+		free(filePath);
+	}
+        
+	free(executablePaths);
 	
 	if(status){
 		_print("hsh: command not found: ");
