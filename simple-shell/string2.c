@@ -41,7 +41,7 @@ void free_Arguments(char **arguments)
 
 	if (arguments == NULL) return;
 
-	for (i = 0; arguments[i]; i++)
+	for (i = 0; arguments[i] != NULL; i++)
     {	
 		if (arguments[i] == NULL) continue;
 		

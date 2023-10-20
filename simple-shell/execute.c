@@ -104,7 +104,7 @@ int execute(char *tokens[])
 			temp = append(executablePaths[i], "/");
 			
 
-			filePath = append(executablePaths[i], tokens[0]);
+			filePath = append(temp, tokens[0]);
 
 			status = exec(filePath, tokens, environ);
 
