@@ -22,12 +22,15 @@ int main(void)
 	signal(SIGINT, contol_C);
 	/* run the application loop*/
 	while (1)
-	{
+	{	
+		printf("Application Loop\n");
 		_print(prompt);
 		if (run())
 		{
 			break;
 		}
+
+		printf("End Application Loop\ns");
 	}
 	return (0);
 }

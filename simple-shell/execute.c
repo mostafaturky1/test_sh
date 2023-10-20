@@ -14,6 +14,7 @@ char **getExecutablePaths(void)
 	char **paths = NULL;
 
 	char *path = _getenv("PATH");
+	printf("***path: %s\n", path);
 
 	if (path == NULL)
 	{
@@ -22,6 +23,9 @@ char **getExecutablePaths(void)
 
 	paths = tokenize(path, ":");
 
+	printf("***path: %s\n", path);
+
+	free(path);
 	return (paths);
 }
 
@@ -82,7 +86,7 @@ int execute(char *tokens[])
 	char **executablePaths = NULL;
 	char *filePath = NULL;
 	int status = -1;
-	char *temp=NULL;
+	int i;
 
 	if (!tokens || !tokens[0])
 	{
@@ -94,26 +98,23 @@ int execute(char *tokens[])
 		return (0);
 	}
 
-
+	printf("getting paths\n");
 	executablePaths = getExecutablePaths();
 	
+	printf("Paths done\n");
     if (executablePaths) {
-        int i;
         for (i = 0; executablePaths[i] != NULL; i++) {
            
-			temp = append(executablePaths[i], "/");
-			
+			filePath = append(executablePaths[i], tokens[0]);
 
-			filePath = append(temp, tokens[0]);
-
+			printf("Path: %s\n", filePath);
 			status = exec(filePath, tokens, environ);
 
-			if (temp) free(temp);
-            if (executablePaths[i]) free(executablePaths[i]);
-			if (filePath) free(filePath);
+            free(executablePaths[i]);
+			free(filePath);
         }
         
-		if(executablePaths) free(executablePaths);
+		free(executablePaths);
     } 
 	
 	if(status){
@@ -139,6 +140,7 @@ int run(void)
 	size_t line_size = 0;
 	ssize_t length = 0;
 
+	printf("Getting Input line\n");
 	line_size = getline(&line, &line_size, stdin);
 	if (!isExist(line_size, line))
 	{
@@ -149,10 +151,14 @@ int run(void)
 	{
 		line[line_size] = '\0';
 	}
+	printf("Input line %s\n", line);
 
 	tokens = tokenize(line, " \n");
+
+	printf("Tokens %s\n", tokens[0]);
 	exited = execute(tokens);
 
+	printf("Execution Done\n");
 	if(line) free(line);
 	return (exited);
 }

@@ -7,31 +7,31 @@
  */
 char *_getenv(const char *name)
 {
-	int i, j;
-	char *value;
+	int i=0;
 
 	if (!name)
-		return (NULL);
-	for (i = 0; environ[i]; i++)
-	{
-		j = 0;
-		if (name[j] == environ[i][j])
-		{
-			while (name[j])
-			{
-				if (name[j] != environ[i][j])
-					break;
+        return NULL;
 
-				j++;
-			}
-			if (name[j] == '\0')
-			{
-				value = (environ[i] + j + 1);
-				return (value);
-			}
-		}
-	}
-	return (0);
+    for (i = 0; environ[i]; i++) {
+        int j = 0;
+        if (name[j] == environ[i][j]) {
+            while (name[j]) {
+                if (name[j] != environ[i][j])
+                    break;
+                j++;
+            }
+            if (name[j] == '\0') {
+                
+                char *value = _strdup(environ[i] + j + 1);
+                if (value)
+                    return value;
+                else
+                    return NULL; 
+            }
+        }
+    }
+
+    return NULL; 
 }
 /**
  * contol_C - Handle SIGINT signal (Ctrl+C) by displaying a prompt.
