@@ -153,7 +153,6 @@ int run(void)
 	tokens = tokenize(line, " \n");
 	exited = execute(tokens);
 
-	free_Arguments(tokens);
 	if(line) free(line);
 	return (exited);
 }
