@@ -51,23 +51,6 @@ void contol_C(int sig_num)
 	}
 }
 
-list_path *pathstrok(char *path)
-{
-	list_path *head = NULL;
-	char *token;
-	char *cpath = _strdup(path);
-
-	token = strtok(cpath, ":");
-	while (token)
-	{
-		head = end_node(&head, token);
-		token = strtok(NULL, ":");
-	}
-
-	free(cpath);
-	return (head);
-}
-
 /**
  * pro_Exit - exits the shell with or without a return of status n
  * @arguments: array of words of the entered line

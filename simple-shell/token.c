@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * tokenize_command - Tokenize a string using a specified delimiter.
- * @str: The string to be tokenized.
+ * tokenize - Split a string into tokens using a specified delimiter.
+ * @line: The input string to tokenize.
  * @delim: The delimiter used to split the string.
  *
- * Return: it return array of string
+ * Return: An array of strings containing the tokens or NULL on failure.
  */
 
 char **tokenize(char *line, const char *delim)
@@ -14,48 +14,38 @@ char **tokenize(char *line, const char *delim)
 	int i = 0;
 	int j = 0;
 	char **tokens = NULL;
-	char *token = NULL;
+	char *token = NULL, *copy = NULL;
 	int maxTokenLength = 0;
-	char *copy = NULL;
 
-	if (line == NULL || delim == NULL) return NULL;
-
+	if (line == NULL || delim == NULL)
+	return (NULL);
 	copy = malloc(_strlen(line) + 1);
-
 	if (copy == NULL)
 	{
 		perror(_getenv("_"));
 		return (NULL);
 	}
-
 	_strcpy(copy, line);
-
 	token = strtok(copy, delim);
-	while(token != NULL){
-	
-		num_token++;	
-		if(_strlen(token) > maxTokenLength) maxTokenLength = _strlen(token);
-
-		token = strtok(NULL, delim);
-
-	}
-
-	tokens = (char **)malloc(num_token * sizeof(char *));
-	for (j = 0; j < num_token; j++) {
-        tokens[j] = (char *)malloc((maxTokenLength + 1) * sizeof(char));
-    }
-
-	token = strtok(copy, delim);
-    while (token != NULL)
+	while (token != NULL)
 	{
-        _strcpy(tokens[i], token);
-        i++;
-        token = strtok(NULL, delim);
-		
-    }
-
-
-
+		num_token++;
+		if (_strlen(token) > maxTokenLength)
+		maxTokenLength = _strlen(token);
+		token = strtok(NULL, delim);
+	}
+	tokens = (char **)malloc(num_token * sizeof(char *));
+	for (j = 0; j < num_token; j++)
+	{
+		tokens[j] = (char *)malloc((maxTokenLength + 1) * sizeof(char));
+	}
+	token = strtok(copy, delim);
+	while (token != NULL)
+	{
+		_strcpy(tokens[i], token);
+		i++;
+		token = strtok(NULL, delim);
+	}
 	free(token);
 	free(copy);
 	return (tokens);
@@ -76,11 +66,14 @@ int exec(const char *command, char *const arguments[], char *const env[])
 {
 	pid_t child_pid = fork();
 	int status;
-	if (command == NULL){
+
+	if (command == NULL)
+	{
 		return (-1);
 	}
 
-	if (arguments == NULL){
+	if (arguments == NULL)
+	{
 		return (-1);
 	}
 

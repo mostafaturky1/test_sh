@@ -7,7 +7,6 @@
  * Return: Always returns 0 to indicate successful execution.
  */
 
-
 int main(void)
 {
 	char *prompt = "($) ";
@@ -15,13 +14,13 @@ int main(void)
 	/* if echo run the command once*/
 	if (!isatty(STDIN_FILENO))
 	{
-		if(run()) _print("\n");
+		if (run())
+			_print("\n");
 		return (0);
 	}
 
 	signal(SIGINT, contol_C);
 	/* run the application loop*/
-	
 	while (1)
 	{
 		_print(prompt);
@@ -30,6 +29,24 @@ int main(void)
 			break;
 		}
 	}
-
 	return (0);
+}
+
+/**
+ * isExist - Checks if a command exists and has a valid length.
+ * @command_length: Length of the command input.
+ * @command: The command input itself.
+ *
+ * Return: 1 if valid, 0 otherwise.
+ */
+
+int isExist(int command_length, char *command)
+{
+	if (command == NULL)
+	return (0);
+
+	if (command_length == -1)
+	return (0);
+
+	return (1);
 }

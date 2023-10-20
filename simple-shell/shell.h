@@ -15,28 +15,6 @@
 
 extern char **environ;
 
-/**
- * struct list_path - Linked list containing PATH directories
- * @dir: directory in path
- * @p: pointer to next node
- */
-typedef struct list_path
-{
-	char *dir;
-	struct list_path *p;
-} list_path;
-
-/**
- * struct mybuild - pointer to function with corresponding buildin command
- * @name: buildin command
- * @func: execute the buildin command
- */
-typedef struct mybuild
-{
-	char *name;
-	void (*func)(char **);
-} mybuild;
-
 /* string2.c */
 int _printchar(char c);
 
@@ -56,7 +34,7 @@ int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 
 /* string.c */
-char* _strcat(char* destination, const char* source);
+char *_strcat(char *destination, const char *source);
 
 /* execute.c */
 int run(void);
@@ -85,23 +63,8 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 /* _getline.c */
 void contol_C(int sig_num);
 
-/* _getline.c */
-list_path *pathstrok(char *path);
-
-/* function.c */
-char *any_Path(char *filename, list_path *head);
-
-/* function.c */
-char *search_Path(char *name, char *sep, char *value);
-
-/* function.c */
-list_path *end_node(list_path **head, char *str);
-
-/* function.c */
+/* string2.c */
 void free_Arguments(char **arv);
-
-/* function */
-void free_linked(list_path *head);
 
 /* _getline.c */
 void pro_Exit(char **arguments);
@@ -109,7 +72,5 @@ void pro_Exit(char **arguments);
 /* _getline.c */
 int _converter(char *str);
 
-/* execute.c */
-void(*isBuild(char **arv))(char **arv);
 
 #endif

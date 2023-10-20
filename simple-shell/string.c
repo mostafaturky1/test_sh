@@ -14,7 +14,6 @@ int _strlen(char *s)
 		longi++;
 		s++;
 	}
-	
 	return (longi);
 }
 
@@ -95,21 +94,31 @@ int _strcmp(char *s1, char *s2)
 	return (0);
 }
 
+/**
+ * _strcat - Concatenate a source string to a destination string.
+ * @destination: The destination string to which the source will be appended.
+ * @source: The source string to append.
+ *
+ * Return: A pointer to the destination string.
+ */
 
-char* _strcat(char* destination, const char* source) {
-    char* ptr = destination;
+char *_strcat(char *destination, const char *source)
+{
+	char *ptr = destination;
 
-    while (*ptr != '\0') {
-        ptr++;
-    }
+	while (*ptr != '\0')
+	{
+		ptr++;
+	}
 
-    while (*source != '\0') {
-        *ptr = *source;
-        ptr++;
-        source++;
-    }
+	while (*source != '\0')
+	{
+		*ptr = *source;
+		ptr++;
+		source++;
+	}
 
-    *ptr = '\0';
+	*ptr = '\0';
 
-    return destination;
+	return (destination);
 }

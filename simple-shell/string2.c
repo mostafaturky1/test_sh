@@ -27,3 +27,26 @@ void _print(char *str)
 		i++;
 	}
 }
+
+/**
+ * free_Arguments - Free memory allocated for an array of strings.
+ * @arguments: The array of strings to be freed.
+ *
+ * This function to releasing memory allocated for an array of strings.
+ */
+
+void free_Arguments(char **arguments)
+{
+	int i;
+
+	if (arguments == NULL) return;
+
+	for (i = 0; arguments[i]; i++)
+    {	
+		if (arguments[i] == NULL) continue;
+		
+		free(arguments[i]);
+    }
+	
+	free(arguments);
+}
