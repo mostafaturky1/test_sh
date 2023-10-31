@@ -2,7 +2,8 @@
 
 str_cmd splitCommand(str_cmd command, const char* delim) { 
     int argCount = 0;
-    char* token = _strtok(command.input, delim);
+    char* cmd = _strdup(command.input);
+    char* token = _strtok(cmd, delim);
     
     command.arg = NULL;
     while (token != NULL) {
@@ -28,6 +29,6 @@ str_cmd splitCommand(str_cmd command, const char* delim) {
         exit(1);
     }
     command.arg[argCount] = NULL;  /* Null-terminate the arguments list */
-
+    free(cmd);
     return (command);
 }
