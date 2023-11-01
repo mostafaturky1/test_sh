@@ -15,6 +15,11 @@
 #include <ctype.h>
 
 #define BUFFER_SIZE 1024
+#define DELIM_COMMAND " "
+#define DELIM_PATH ";"
+
+extern char **environ;
+
 
 typedef struct {
     size_t size;
@@ -29,7 +34,7 @@ typedef struct data {
 
     /* the output of the command */
     char *output_message;
-    int *output_status;
+    int output_status;
 
 } str_cmd;
 
@@ -91,11 +96,15 @@ char* _strdup(const char* str);
 str_cmd _getline(void);
 
 /* parser.c */
-str_cmd splitCommand(str_cmd command, const char* delim);
+void Parser(str_cmd *command);
 
 /* memory.c */
 void *_realloc(void *ptr, size_t size);
 void free_struct(str_cmd command);
 void* _memmove(void* dest, const void* src, size_t n);
+
+
+int exec(const char *command, char *const arguments[], char *const env[]);
+void execute(str_cmd *command);
 
 #endif
