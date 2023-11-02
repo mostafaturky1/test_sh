@@ -2,19 +2,25 @@
 
 void execute(str_cmd *command){
     int status = -1;
-    char *filePath;
 
-    filePath = _strcat("/bin/", command->arg[0]);
-   status =  exec(filePath, command->arg, environ);
+    command->arg[0] = _strcat("/bin/", command->arg[0]);
+    status =  exec(command->arg[0], command->arg, environ);
 	
-	if(status == -1){
+	if(status != 0){
         command->output_message = "hsh: command not found: ";
         command->output_status = -1;
 	}
-    free(filePath);
+
+    if(status == -1){
+        command->output_message = "hsh: somthing went wrong";
+        command->output_status = -1;
+        printf("error %d", status);
+	}
+
 }
 
-int exec(const char *command, char *const arguments[], char *const env[])
+
+int exec(char *command, char *arguments[], char *const env[])
 {
     int status;
     pid_t child_pid = fork();
@@ -34,7 +40,7 @@ int exec(const char *command, char *const arguments[], char *const env[])
 		perror("Fork failed");
 		return (-1);
 	} else if (child_pid == 0)
-	{
+	{  
 		execve(command, arguments, env);
 		exit(EXIT_FAILURE);
 	}
@@ -42,5 +48,6 @@ int exec(const char *command, char *const arguments[], char *const env[])
 	{
 		wait(&status);
 	}
-	return (0);
+    
+	return status;
 }

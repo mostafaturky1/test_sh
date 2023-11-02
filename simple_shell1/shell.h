@@ -104,7 +104,7 @@ void free_struct(str_cmd command);
 void* _memmove(void* dest, const void* src, size_t n);
 
 
-int exec(const char *command, char *const arguments[], char *const env[]);
+int exec(char *command, char *arguments[], char *const env[]);
 void execute(str_cmd *command);
 
 #endif
