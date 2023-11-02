@@ -1,34 +1,23 @@
 #include "shell.h"
 
-
 void execute(str_cmd *command){
     int status = -1;
+    char *filePath;
 
-
-   status =  exec(_strcat("/usr/bin/", command->arg[0]), command->arg, environ);
+    filePath = _strcat("/bin/", command->arg[0]);
+   status =  exec(filePath, command->arg, environ);
 	
 	if(status == -1){
         command->output_message = "hsh: command not found: ";
         command->output_status = -1;
-        printf("error %d", status);
 	}
-
+    free(filePath);
 }
-
-
-
 
 int exec(const char *command, char *const arguments[], char *const env[])
 {
-
     int status;
     pid_t child_pid = fork();
-
-    printf("command: %s\n", command);
-    printf("arg[0]: %s\n", arguments[0]);
-    printf("env: %s\n", env[0]);
-	
-	
 
 	if (command == NULL)
 	{
@@ -46,7 +35,6 @@ int exec(const char *command, char *const arguments[], char *const env[])
 		return (-1);
 	} else if (child_pid == 0)
 	{
-        printf("executing ................\n");
 		execve(command, arguments, env);
 		exit(EXIT_FAILURE);
 	}

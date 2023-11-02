@@ -18,7 +18,7 @@
 #define DELIM_COMMAND " "
 #define DELIM_PATH ";"
 
-extern char **environ;
+extern char *const *environ;
 
 
 typedef struct {

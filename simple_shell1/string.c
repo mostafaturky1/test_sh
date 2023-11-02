@@ -62,7 +62,7 @@ char *_strcat(char *dest, const char *src) {
         return NULL;
     }
 
-    strcpy(new_str, dest);
+    _strcpy(new_str, dest);
     
     for (i = 0; i <= src_len; i++) {
         new_str[dest_len + i] = src[i];

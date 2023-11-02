@@ -22,17 +22,17 @@ int run(void)
 {
     str_cmd command;
 	command.output_message = NULL;
-
+    command.output_status = 0;
 
     command = _getline();
     Parser(&command);
 
 	execute(&command);
 
-	if(command.output_status == -1){
+	/* if(command.output_status == -1){
 		_print(command.output_message);
 		_print("\n");
-	}
+	} */
 
 
 	free_struct(command);    
@@ -52,7 +52,6 @@ contain application loop that calls one function which is the run()
 */
 int main(void)
 {
-	/* if echo run the command once*/
 	if (!isatty(STDIN_FILENO))
 	{
 		if (run())
@@ -61,7 +60,6 @@ int main(void)
 	}
 
 	signal(SIGINT, contol_C);
-	/* run the application loop*/
 	while (1)
 	{
 		_print("($) ");
