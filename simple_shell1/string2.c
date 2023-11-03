@@ -67,7 +67,7 @@ char* _strdup(const char* str) {
 
     copy = (char*)malloc(len);
     if (copy != NULL) {
-        strcpy(copy, str);
+        _strcpy(copy, str);
     }
 
     return copy;

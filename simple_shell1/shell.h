@@ -18,7 +18,7 @@
 #define DELIM_COMMAND " "
 #define DELIM_PATH ";"
 
-extern char *const *environ;
+extern char **environ;
 
 
 typedef struct {
@@ -63,6 +63,8 @@ return: pointer to struct of type output
 /* int echo_command(str_cmd *command);
  */
 /* env.c */
+char* _getenv(const char* varname);
+char* findExecutablePath(const char* command);
 /* void env_commmand(str_cmd *command);
  */
 /* executer.c */

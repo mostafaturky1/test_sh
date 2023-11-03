@@ -51,12 +51,12 @@ int _strcmp(const char *str1, const char *str2) {
 char *_strcat(char *dest, const char *src) {
     size_t dest_len;
     size_t src_len;
-    char *new_str;
+    char *new_str = NULL;
     size_t i;
     
     dest_len = _strlen(dest);
     src_len = _strlen(src);
-    new_str = (char *)malloc(dest_len + src_len + 1);  /*  +1 for the null-terminator */
+    new_str = (char *)malloc(dest_len + src_len + 1); 
     if (new_str == NULL) {
         perror("Memory allocation failed");
         return NULL;
@@ -64,12 +64,15 @@ char *_strcat(char *dest, const char *src) {
 
     _strcpy(new_str, dest);
     
-    for (i = 0; i <= src_len; i++) {
+    for (i = 0; i < src_len; i++) {
         new_str[dest_len + i] = src[i];
     }
 
+    new_str[dest_len + src_len] = '\0';  /*  Add the null-terminator. */
+
     return new_str;
 }
+
 
 char *_strchr(const char *str, int ch) {
     while (*str != '\0') {
