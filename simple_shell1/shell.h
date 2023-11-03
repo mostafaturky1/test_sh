@@ -20,23 +20,19 @@
 
 extern char **environ;
 
-
-typedef struct {
-    size_t size;
-} SizeInfo;
-
 /* data.c */
 typedef struct data {
 
     char *input; /* from get line */
     size_t input_length; /* length of the input */
     char **arg;
-
+    char* executablePath;
     /* the output of the command */
     char *output_message;
     int output_status;
 
 } str_cmd;
+
 
 /*
 To DO: Declare a static variable called **location** to store the last location of my shell char*
@@ -64,7 +60,7 @@ return: pointer to struct of type output
  */
 /* env.c */
 char* _getenv(const char* varname);
-char* findExecutablePath(const char* command);
+str_cmd* findExecutablePath(str_cmd *command);
 /* void env_commmand(str_cmd *command);
  */
 /* executer.c */

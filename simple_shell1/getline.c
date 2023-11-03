@@ -30,7 +30,7 @@ str_cmd _getline(void) {
                 command.input = _strdup(input_buffer);
                 /* Move the remaining data to the beginning of the buffer */
                 remaining = input_buffer_pos - i - 1;
-                memmove(input_buffer, input_buffer + i + 1, remaining);
+                _memmove(input_buffer, input_buffer + i + 1, remaining);
                 input_buffer_pos = remaining;
                 return (command);
             }

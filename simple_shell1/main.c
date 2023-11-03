@@ -21,23 +21,23 @@ Run Function *****
 int run(void)
 {
     str_cmd command;
-    char* test;
-	command.output_message = NULL;
+/*     char* test;
+ */	command.output_message = NULL;
     command.output_status = 0;
 
-    command = _getline();    
+    command = _getline();
     Parser(&command);
-    
-    test = findExecutablePath(command.arg[0]);
-    printf("path; %s\n",test);
-	/* execute(&command); */
+    if(!command.arg || !command.arg[0]){
+        return (0);
+    }
+    findExecutablePath(&command);
+    printf("path; %s\n",command.executablePath);
+	execute(&command);
 
 	/* if(command.output_status == -1){
 		_print(command.output_message);
 		_print("\n");
 	} */
-
-
 	free_struct(command);    
     return (0);
 }
@@ -69,7 +69,7 @@ int main(void)
 		if (run())
 		{
 			break;
-		}
+		}        
 	}
     return (0);
 

@@ -19,7 +19,7 @@ char* _getenv(const char* varname) {
     return NULL; /*  Variable not found in the environment */
 }
 
-char* findExecutablePath(const char* command) {
+str_cmd* findExecutablePath(str_cmd* command) {
     char* path = _getenv("PATH");
     char* pathCopy;
     char* token;
@@ -34,14 +34,16 @@ char* findExecutablePath(const char* command) {
 
     while (token != NULL) {
         /*  Check if the executable file exists in the current directory */
-        fullPath = (char*)malloc(strlen(token) + 1 + strlen(command) + 1);
+        fullPath = (char*)malloc(strlen(token) + 1 + strlen(command->arg[0]) + 1);
         _strcpy(fullPath, token);
         strcat(fullPath, "/");
-        strcat(fullPath, command);
+        strcat(fullPath, command->arg[0]);
 
         if (access(fullPath, X_OK) == 0) {
+            command->executablePath = _strdup(fullPath);
+            free(fullPath);
             free(pathCopy);
-            return fullPath;
+            return (command);
         }
 
         free(fullPath);

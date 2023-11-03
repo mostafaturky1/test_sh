@@ -70,4 +70,5 @@ void free_struct(str_cmd command)
     
     free(command.arg);
     free(command.input);
+    free(command.executablePath);
 }

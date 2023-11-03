@@ -3,8 +3,7 @@
 void execute(str_cmd *command){
     int status = -1;
 
-    command->arg[0] = _strcat("/bin/", command->arg[0]);
-    status =  exec(command->arg[0], command->arg, environ);
+    status =  exec(command->executablePath, command->arg, environ);
 	
 	if(status != 0){
         command->output_message = "hsh: command not found: ";
