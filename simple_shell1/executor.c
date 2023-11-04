@@ -18,7 +18,7 @@ void execute(str_cmd *command){
     }
     if(_strchr(command->arg[0], '/') != NULL)
     {
-
+        command->executablePath = command->arg[0];
     }
 
     
