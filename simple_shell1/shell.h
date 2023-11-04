@@ -17,6 +17,8 @@
 #define BUFFER_SIZE 1024
 #define DELIM_COMMAND " "
 #define DELIM_PATH ";"
+#define STATUS_FAILED  -1
+#define STATUS_SUCCESS  1
 
 extern char **environ;
 
@@ -33,7 +35,6 @@ typedef struct data {
 
 } str_cmd;
 
-
 /*
 To DO: Declare a static variable called **location** to store the last location of my shell char*
 -- the initial location could be the current file location 
@@ -46,17 +47,12 @@ To Do: create static PATH variables to load the pathes inside it in a char ** wh
 */
 
 /* cd.c */
+void cd_command(str_cmd*);
 
-/*
-To Do: cd_command(command struct)
-takes: pointer to struct of type command
-return: pointer to struct of type output
-*/
 
 /* char cd_command(str_cmd *command);
  */
-/* switcher.c */
-void switcher(str_cmd *command);
+
 /* int echo_command(str_cmd *command);
  */
 /* env.c */
@@ -77,10 +73,10 @@ To Do: command_clean() to free any static variable if exist
 /* exit.c */
 /* int pro_Exit(str_cmd *command);
  */
-void exitProgram(str_cmd command);
+void exit_command(str_cmd *command);
 void contol_C(int sig_num);
 /* ls.c */
-void ls_command(str_cmd *command);
+void default_command(str_cmd *command);
 
 /* sting.c */
 size_t _strlen(const char *str);
@@ -101,7 +97,7 @@ void Parser(str_cmd *command);
 
 /* memory.c */
 void *_realloc(void *ptr, size_t size);
-void free_struct(str_cmd command);
+void free_struct(str_cmd *command);
 void* _memmove(void* dest, const void* src, size_t n);
 
 

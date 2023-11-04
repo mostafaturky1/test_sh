@@ -30,17 +30,16 @@ int run(void)
         return (0);
     }
  
-  	    switcher(&command);
+  	    execute(&command);
 
-	/* if(command.output_status == -1){
+	if(command.output_status == STATUS_FAILED){
 		_print(command.output_message);
 		_print("\n");
-	} */
-	free_struct(command);
+	} 
+	
+	free_struct(&command);
     return (0);
 }
-
-
 
 
 /*

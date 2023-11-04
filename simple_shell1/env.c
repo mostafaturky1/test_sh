@@ -49,12 +49,8 @@ void* findExecutablePath(str_cmd* command) {
         free(fullPath);
         token = _strtok(NULL, ":");
     }
-   /* sh: 1: fsdfs: not found */
-    _print("sh: ");
-    _print(command->arg[0]);
-    _print(": not found\n");
     free(pathCopy);
-    command->executablePath = 0;
+    command->executablePath = NULL;
     return (NULL);
 }
 

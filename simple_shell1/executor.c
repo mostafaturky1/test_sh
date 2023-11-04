@@ -1,51 +1,37 @@
 #include "shell.h"
+#include <string.h>
 
 void execute(str_cmd *command){
-    int status = -1;
+    
+    void (*command_executor) (str_cmd*) = default_command;
 
-    status =  exec(command->executablePath, command->arg, environ);
-	
-	if(status != 0){
-        command->output_message = "hsh: command not found: ";
-        command->output_status = -1;
-	}
+    findExecutablePath(command);
 
-    if(status == -1){
-        command->output_message = "hsh: somthing went wrong";
-        command->output_status = -1;
-        printf("error %d", status);
-	}
+    if(_strcmp(command->arg[0], "exit") == 0)
+    {
+        command_executor= exit_command;
+    }
+    if(_strcmp(command->arg[0], "cd") == 0)
+    {
+        command_executor= cd_command;
 
+    }
+    if(_strchr(command->arg[0], '/') != NULL)
+    {
+
+    }
+
+    
+    if(command_executor == default_command && command->executablePath == NULL){
+            command->output_message = _strcat("hsh: ", command->arg[0]);
+            command->output_message = _strcat(command->output_message, ": not found");
+            command->output_status = STATUS_FAILED;
+            return;
+    }
+
+    (*command_executor)(command);
+
+    
+    
 }
 
-
-int exec(char *command, char *arguments[], char *const env[])
-{
-    int status;
-    pid_t child_pid = fork();
-
-	if (command == NULL)
-	{
-		return (-1);
-	}
-
-	if (arguments == NULL)
-	{
-		return (-1);
-	}
-
-	if (child_pid == -1)
-	{
-		perror("Fork failed");
-		return (-1);
-	} else if (child_pid == 0)
-	{  
-		execve(command, arguments, env);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wait(&status);
-	}
-	return status;
-}

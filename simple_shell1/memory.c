@@ -58,18 +58,18 @@ void *_realloc(void *ptr, size_t size) {
     return new_ptr;
 }
 
-void free_struct(str_cmd command)
+void free_struct(str_cmd *command)
 {
     int i = 0;
     
-    while (command.arg[i])
+    while (command->arg[i])
     {
-        free(command.arg[i]);
+        free(command->arg[i]);
         i++;
     }
     
-    free(command.arg);
-    free(command.input);
-    if(command.executablePath != NULL)
-        free(command.executablePath);
+    free(command->arg);
+    free(command->input);
+    if(command->executablePath != NULL)
+        free(command->executablePath);
 }

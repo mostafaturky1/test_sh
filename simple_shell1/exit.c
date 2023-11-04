@@ -6,7 +6,7 @@
 }
  */
 
-void exitProgram(str_cmd command) {
+void exit_command(str_cmd *command) {
     free_struct(command);
     exit(1);
 }

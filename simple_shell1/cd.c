@@ -1,8 +1,13 @@
 #include "shell.h"
 
-/* char cd_command(str_cmd *command)
+void cd_command(str_cmd *command)
 {
 
-    return (NULL);
+    if (command->arg[1] == NULL) return;
+
+    if (chdir(command->arg[1]) == -1) {
+        command->output_status = -1;
+        command->output_message = "No Such file or directory";
+    }
 }
- */
+
