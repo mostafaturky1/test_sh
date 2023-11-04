@@ -6,6 +6,11 @@
 }
  */
 
+void exitProgram(str_cmd command) {
+    free_struct(command);
+    exit(1);
+}
+
 void contol_C(int sig_num)
 {
 	char *prompt = "\n($) ";

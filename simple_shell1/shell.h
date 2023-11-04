@@ -55,12 +55,14 @@ return: pointer to struct of type output
 
 /* char cd_command(str_cmd *command);
  */
-/* echo.c */
+/* switcher.c */
+void switcher(str_cmd *command);
 /* int echo_command(str_cmd *command);
  */
 /* env.c */
 char* _getenv(const char* varname);
-str_cmd* findExecutablePath(str_cmd *command);
+void* findExecutablePath(str_cmd *command);
+void print_env(void);
 /* void env_commmand(str_cmd *command);
  */
 /* executer.c */
@@ -75,6 +77,7 @@ To Do: command_clean() to free any static variable if exist
 /* exit.c */
 /* int pro_Exit(str_cmd *command);
  */
+void exitProgram(str_cmd command);
 void contol_C(int sig_num);
 /* ls.c */
 void ls_command(str_cmd *command);

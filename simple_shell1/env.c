@@ -19,7 +19,7 @@ char* _getenv(const char* varname) {
     return NULL; /*  Variable not found in the environment */
 }
 
-str_cmd* findExecutablePath(str_cmd* command) {
+void* findExecutablePath(str_cmd* command) {
     char* path = _getenv("PATH");
     char* pathCopy;
     char* token;
@@ -49,12 +49,24 @@ str_cmd* findExecutablePath(str_cmd* command) {
         free(fullPath);
         token = _strtok(NULL, ":");
     }
-
+   /* sh: 1: fsdfs: not found */
+    _print("sh: ");
+    _print(command->arg[0]);
+    _print(": not found\n");
     free(pathCopy);
-    return NULL;
+    command->executablePath = 0;
+    return (NULL);
 }
 
-
+void print_env(void)
+{
+    char** env;
+    for (env = environ; *env; env++)
+    {
+        _print(*env);
+        _printchar('\n');
+    }
+}
 /* void env_commmand(str_cmd *command)
 {
     return (NULL);

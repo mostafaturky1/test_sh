@@ -47,6 +47,5 @@ int exec(char *command, char *arguments[], char *const env[])
 	{
 		wait(&status);
 	}
-    
 	return status;
 }

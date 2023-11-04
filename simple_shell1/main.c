@@ -21,8 +21,7 @@ Run Function *****
 int run(void)
 {
     str_cmd command;
-/*     char* test;
- */	command.output_message = NULL;
+	command.output_message = NULL;
     command.output_status = 0;
 
     command = _getline();
@@ -30,15 +29,14 @@ int run(void)
     if(!command.arg || !command.arg[0]){
         return (0);
     }
-    findExecutablePath(&command);
-    printf("path; %s\n",command.executablePath);
-	execute(&command);
+ 
+  	    switcher(&command);
 
 	/* if(command.output_status == -1){
 		_print(command.output_message);
 		_print("\n");
 	} */
-	free_struct(command);    
+	free_struct(command);
     return (0);
 }
 
