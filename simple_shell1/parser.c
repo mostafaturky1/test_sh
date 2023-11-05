@@ -22,7 +22,7 @@ void Parser(str_cmd *command) {
         argCount++;
         token = _strtok(NULL, DELIM_COMMAND);
     }
-
+    
     command->arg = (char**)_realloc(command->arg, (argCount + 1) * sizeof(char*));
     if (command->arg == NULL) {
         perror("Memory allocation error");

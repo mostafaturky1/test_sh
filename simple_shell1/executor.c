@@ -21,7 +21,7 @@ void execute(str_cmd *command){
         command->executablePath = command->arg[0];
     }
 
-    
+    command->output_status = STATUS_SUCCESS;
     if(command_executor == default_command && command->executablePath == NULL){
             command->output_message = _strcat("hsh: ", command->arg[0]);
             command->output_message = _strcat(command->output_message, ": not found");

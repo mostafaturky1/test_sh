@@ -22,11 +22,12 @@ int run(void)
 {
     str_cmd command;
 	command.output_message = NULL;
-    command.output_status = 0;
 
     command = _getline();
     Parser(&command);
     if(!command.arg || !command.arg[0]){
+        command.executablePath = NULL;
+        free_struct(&command);
         return (0);
     }
  
