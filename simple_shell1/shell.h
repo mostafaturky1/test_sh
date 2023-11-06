@@ -58,10 +58,13 @@ void cd_command(str_cmd*);
 /* env.c */
 char* _getenv(const char* varname);
 void* findExecutablePath(str_cmd *command);
-void print_env(void);
-/* void env_commmand(str_cmd *command);
- */
-/* executer.c */
+void env_command(void);
+int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(const char *name);
+void unsetenv_command(str_cmd *command);
+void setenv_command(str_cmd *command);
+
+/* main.c */
 int run(void);
 
 
