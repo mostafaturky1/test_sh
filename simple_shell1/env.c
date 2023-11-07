@@ -54,58 +54,21 @@ void* findExecutablePath(str_cmd* command) {
     return (NULL);
 }
 
-void env_command(void)
+void env_command(str_cmd *command)
 {
-    char** env;
-    for (env = environ; *env; env++)
-    {
-        _print(*env);
-        _printchar('\n');
+    
+    char **env_var = environ;
+    command->output_message = NULL;
+    command->output_status = 0;
+
+    while (*env_var != NULL) {
+        _print(*env_var);
+        _print("\n");
+        env_var++;
     }
 }
 
-int _setenv(const char *name, const char *value, int overwrite) {
-    char *var, *new_var = NULL;
 
-    if (name == NULL || name[0] == '\0' || value == NULL)
-        return -1;
-
-    var = _getenv(name);
-
-    if (var) {
-        if (overwrite) {
-            
-            int index = var - environ[0]; 
-            free(var);
-            new_var = malloc(_strlen(name) + _strlen(value) + 2);
-            if (!new_var) {
-                perror("Error in _setenv");
-                return -1;
-            }
-            _strcpy(new_var, name); 
-            _strcpy(new_var + _strlen(name), "="); 
-            _strcpy(new_var + _strlen(name) + 1, value); 
-            environ[index] = new_var;
-        }
-    } else {
-        int env_size = 0;
-        while (environ[env_size] != NULL)
-            env_size++;
-        new_var = malloc(_strlen(name) + _strlen(value) + 2);
-        if (!new_var) {
-            perror("Error in _setenv");
-/*             free(new_var);
- */            return -1;
-        }
-        _strcpy(new_var, name); 
-        _strcpy(new_var + _strlen(name), "="); 
-        _strcpy(new_var + _strlen(name) + 1, value); 
-        environ[env_size] = new_var;
-        environ[env_size + 1] = NULL; 
-    }
-/*     free(new_var);
- */    return 0;
-}
 
 int _unsetenv(const char *name) {
     char **current = environ;
@@ -135,19 +98,13 @@ int _unsetenv(const char *name) {
 }
 
 void setenv_command(str_cmd *command) {
-    int overwrite, result;
+    int result;
 
-    if (command->arg[1] == NULL || command->arg[2] == NULL) {
+    if (command->arg[2] == NULL || command->arg[3] == NULL) {
         command->output_message = "Usage: setenv VARIABLE VALUE";
         return;
     }
-
-    overwrite = 1;
-    if (strcmp(command->arg[1], "0") == 0) {
-        overwrite = 0;
-    }
-
-    result = _setenv(command->arg[1], command->arg[2], overwrite);
+    result = _setenv(command->arg[2], command->arg[3]);
     if (result == -1) {
         command->output_message = "_setenv error";
     }
@@ -156,13 +113,58 @@ void setenv_command(str_cmd *command) {
 void unsetenv_command(str_cmd *command) {
     int result;
     
-    if (command->arg[1] == NULL) {
+    if (command->arg[2] == NULL) {
         command->output_message = "Usage: unsetenv VARIABLE";
         return;
     }
 
-    result = _unsetenv(command->arg[1]);
+    result = _unsetenv(command->arg[2]);
     if (result == -1) {
         command->output_message = "Variable not found";
     }
+}
+
+int _addenv(const char *name, const char *value) {
+    int env_size = 0, i;
+    char *new_var = NULL;
+    
+    while (environ[env_size] != NULL)
+        env_size++;
+
+    new_var = malloc(_strlen(name) + _strlen(value) + 2);
+    if (!new_var) {
+        perror("Error in _addenv");
+        return -1;
+    }
+    _strcpy(new_var, name); /* Copy name to new_var */
+    _strcpy(new_var + _strlen(name), "="); /* Concatenate "=" */
+    _strcpy(new_var + _strlen(name) + 1, value); /*  Concatenate value */
+
+    /* Shift existing variables to make room for the new one */
+    for (i = env_size; i >= 0; i--) {
+        environ[i + 1] = environ[i];
+    }
+    environ[0] = new_var;
+/*     free(new_var);
+ */    return 0;
+}
+
+int _setenv(char *name, char *value) {
+    char *var;
+
+   
+    if (name == NULL || name[0] == '\0' || value == NULL)
+        return -1;
+
+    var = _getenv(name);
+
+    if (var) {
+            /* Variable exists, so we need to replace it */
+            _unsetenv(name);
+            _addenv(name, value);
+    } else {
+        /* Variable does not exist, so we create a new one */
+        _addenv(name, value);
+    }
+    return 0;
 }

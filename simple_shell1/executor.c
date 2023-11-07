@@ -10,18 +10,25 @@ void execute(str_cmd *command){
     {
         command_executor= exit_command;
     }
-    /* if(_strcmp(command->arg[0], "env") == 0)
-    {
-        command_executor= env_command;
-    } */
-    if(_strcmp(command->arg[0], "setenv") == 0)
-    {
-        command_executor= setenv_command;
+    if(_strcmp(command->arg[0], "env") == 0)
+    {   if (command->arg[1])
+        {
+            if(_strcmp(command->arg[1], "setenv") == 0)
+            {
+            command_executor= setenv_command;
+            }
+        else if(_strcmp(command->arg[1], "unsetenv") == 0)
+        {
+            command_executor= unsetenv_command;
+        }
+        else
+        {
+/*     command->executablePath = command->arg[0];
+ */         command_executor= env_command;
+        }
     }
-    if(_strcmp(command->arg[0], "unsetenv") == 0)
-    {
-        command_executor= unsetenv_command;
     }
+    
     if(_strcmp(command->arg[0], "cd") == 0)
     {
         command_executor= cd_command;

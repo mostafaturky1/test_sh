@@ -53,6 +53,8 @@ contain application loop that calls one function which is the run()
 */
 int main(void)
 {
+    int i = 0;
+
 	if (!isatty(STDIN_FILENO))
 	{
 		if (run())
@@ -69,6 +71,11 @@ int main(void)
 			break;
 		}        
 	}
+    while (environ[i] != NULL)
+        {
+            free(environ[i]);
+            i++;
+        }
     return (0);
 
 

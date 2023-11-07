@@ -15,7 +15,7 @@
 #include <ctype.h>
 
 #define BUFFER_SIZE 1024
-#define DELIM_COMMAND " "
+#define DELIM_COMMAND " \n"
 #define DELIM_PATH ";"
 #define STATUS_FAILED  -1
 #define STATUS_SUCCESS  1
@@ -58,11 +58,12 @@ void cd_command(str_cmd*);
 /* env.c */
 char* _getenv(const char* varname);
 void* findExecutablePath(str_cmd *command);
-void env_command(void);
-int _setenv(const char *name, const char *value, int overwrite);
+void env_command(str_cmd *command);
+int _setenv(char *name,  char *value);
 int _unsetenv(const char *name);
 void unsetenv_command(str_cmd *command);
 void setenv_command(str_cmd *command);
+int _addenv(const char *name, const char *value);
 
 /* main.c */
 int run(void);
