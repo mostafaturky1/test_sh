@@ -12,6 +12,7 @@ void Parser(str_cmd *command) {
             perror("Memory allocation error");
             exit(1);
         }
+        
 
         command->arg[argCount] = _strdup(token);
         if (command->arg[argCount] == NULL) {

@@ -64,11 +64,13 @@ void free_struct(str_cmd *command)
     
     while (command->arg[i])
     {
+        if(command->arg[i] != NULL)
         free(command->arg[i]);
         i++;
     }
-    
+    if(command->arg != NULL)
     free(command->arg);
+    if(command->input != NULL)
     free(command->input);
     if(command->executablePath != NULL)
         free(command->executablePath);

@@ -14,8 +14,7 @@
 #include <errno.h>
 #include <ctype.h>
 
-#define BUFFER_SIZE 1024
-#define DELIM_COMMAND " \n"
+#define DELIM_COMMAND " "
 #define DELIM_PATH ";"
 #define STATUS_FAILED  -1
 #define STATUS_SUCCESS  1
@@ -94,7 +93,7 @@ char *_strchr(const char *str, int ch);
 char* _strdup(const char* str);
 
 /* getline.c */
-str_cmd _getline(void);
+/* str_cmd _getline(void); */
 
 /* parser.c */
 void Parser(str_cmd *command);

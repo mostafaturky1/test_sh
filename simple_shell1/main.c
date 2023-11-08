@@ -21,24 +21,28 @@ Run Function *****
 int run(void)
 {
     str_cmd command;
-	command.output_message = NULL;
-
-    command = _getline();
-    Parser(&command);
-    if(!command.arg || !command.arg[0]){
-        command.executablePath = NULL;
-        free_struct(&command);
-        return (0);
+    size_t len = 0;
+    
+    command.output_message = NULL;
+   
+/*     input = _getline();
+ */ while (getline(&command.input,&len,stdin) != -1)
+    {
+        printf("input: %s", command.input);
+        Parser(&command);
+        printf("args: %s\n", command.arg[0]);
+        if(!command.arg || !command.arg[0]){
+            command.executablePath = NULL;
+            free_struct(&command);
+            return (0);
+        }
+            execute(&command);
+        if(command.output_status == STATUS_FAILED){
+            _print(command.output_message);
+            _print("\n");
+        }
     }
- 
-  	    execute(&command);
-
-	if(command.output_status == STATUS_FAILED){
-		_print(command.output_message);
-		_print("\n");
-	} 
-	
-	free_struct(&command);
+    free_struct(&command);
     return (0);
 }
 

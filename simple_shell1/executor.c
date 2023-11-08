@@ -17,25 +17,24 @@ void execute(str_cmd *command){
             {
             command_executor= setenv_command;
             }
-        else if(_strcmp(command->arg[1], "unsetenv") == 0)
-        {
-            command_executor= unsetenv_command;
-        }
-        else
-        {
-/*     command->executablePath = command->arg[0];
- */         command_executor= env_command;
+            else if(_strcmp(command->arg[1], "unsetenv") == 0)
+            {
+                command_executor= unsetenv_command;
+            }    
+            else
+            {
+                command_executor= env_command;
+            }
         }
     }
-    }
-    
+     
     if(_strcmp(command->arg[0], "cd") == 0)
     {
         command_executor= cd_command;
     }
     if(_strchr(command->arg[0], '/') != NULL)
     {
-        command->executablePath = command->arg[0];
+        command->executablePath = _strdup(command->arg[0]);
     }
     command->output_status = STATUS_SUCCESS;
     if(command_executor == default_command && command->executablePath == NULL){
