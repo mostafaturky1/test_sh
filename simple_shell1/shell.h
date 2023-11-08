@@ -14,10 +14,12 @@
 #include <errno.h>
 #include <ctype.h>
 
+#define BUFFER_SIZE 1024
 #define DELIM_COMMAND " "
 #define DELIM_PATH ";"
 #define STATUS_FAILED  -1
 #define STATUS_SUCCESS  1
+
 #define INTERACTIVE 1
 #define NON_INTERACTIVE 0
 
@@ -59,12 +61,10 @@ void cd_command(str_cmd*);
 /* env.c */
 char* _getenv(const char* varname);
 void* findExecutablePath(str_cmd *command);
-void env_command(str_cmd *command);
-int _setenv(char *name,  char *value);
-int _unsetenv(const char *name);
-void unsetenv_command(str_cmd *command);
-void setenv_command(str_cmd *command);
-int _addenv(const char *name, const char *value);
+void print_env(void);
+/* void env_commmand(str_cmd *command);
+ */
+
 
 /*
 To Do: command_clean() to free any static variable if exist
@@ -91,7 +91,17 @@ char *_strchr(const char *str, int ch);
 char* _strdup(const char* str);
 
 /* getline.c */
-char** _getlines(FILE *stream, size_t *line_count, int mode);
+char** _getlines(size_t *line_count, int mode);
+
+/* env.c */
+char* _getenv(const char* varname);
+void* findExecutablePath(str_cmd *command);
+void env_command(str_cmd *command);
+int _setenv(char *name,  char *value);
+int _unsetenv(const char *name);
+void unsetenv_command(str_cmd *command);
+void setenv_command(str_cmd *command);
+int _addenv(const char *name, const char *value);
 
 /* parser.c */
 void Parser(str_cmd *command);
@@ -106,3 +116,4 @@ int exec(char *command, char *arguments[], char *const env[]);
 void execute(str_cmd *command);
 
 #endif
+

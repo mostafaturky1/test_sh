@@ -12,14 +12,17 @@ int run(int mode)
    
   
 
-    lines = _getlines(stdin, &line_count, mode);
+    lines = _getlines(&line_count, mode);
 
     if (!lines) {
+        printf("line is NULL\n");
         return -1;
     }
 
-   for (i = 0; i < line_count; i++) {
 
+    printf("line count: %lu\n", line_count);
+    for (i = 0; i < line_count; i++) {
+        
         command.input = _strdup(lines[i]);
 
         Parser(&command);
@@ -40,10 +43,11 @@ int run(int mode)
         
         }
         
-        free_struct(&command);
+        
         free(lines[i]); // Free individual lines
     }
 
+    free_struct(&command);
     free(lines); // Free the array of lines
     return (0);
 }
@@ -61,22 +65,21 @@ int main(void)
 {
     int i = 0;
 
-	if (!isatty(STDIN_FILENO))
-	{
-		if (run(NON_INTERACTIVE))
-			_print("\n");
-		return (0);
-	}
+    if (!isatty(STDIN_FILENO))
+    {
+        if (run(NON_INTERACTIVE))
+        return (0);
+    }
 
-	signal(SIGINT, contol_C);
-	while (1)
-	{
-		_print("($) ");
-		if (run(INTERACTIVE))
-		{
-			break;
-		}        
-	}
+    signal(SIGINT, contol_C);
+    while (1)
+    {
+        _print("($) ");
+        if (run(INTERACTIVE))
+        {
+            break;
+        }        
+    }
     while (environ[i] != NULL)
         {
             free(environ[i]);
@@ -86,3 +89,4 @@ int main(void)
 
 
 }
+
