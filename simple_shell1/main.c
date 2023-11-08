@@ -1,48 +1,50 @@
 #include "shell.h"
 
 
-
-/*
-
-Run Function *****
-
-// declare the command from Command struct
-
-// call parser(command)
-
-// call executor(command)
-
-// call print(command)
-
-// function to free the command struct
-
-*/
-
-int run(void)
+int run(int mode)
 {
     str_cmd command;
-    size_t len = 0;
+    size_t line_count = 0;
+    char **lines = NULL;
+    size_t i;
     
     command.output_message = NULL;
    
-/*     input = _getline();
- */ while (getline(&command.input,&len,stdin) != -1)
-    {
-        printf("input: %s", command.input);
+  
+
+    lines = _getlines(stdin, &line_count, mode);
+
+    if (!lines) {
+        return -1;
+    }
+
+   for (i = 0; i < line_count; i++) {
+
+        command.input = _strdup(lines[i]);
+
         Parser(&command);
-        printf("args: %s\n", command.arg[0]);
+       
+
         if(!command.arg || !command.arg[0]){
             command.executablePath = NULL;
             free_struct(&command);
             return (0);
         }
-            execute(&command);
+
+         
+        execute(&command);
+    
         if(command.output_status == STATUS_FAILED){
             _print(command.output_message);
             _print("\n");
+        
         }
+        
+        free_struct(&command);
+        free(lines[i]); // Free individual lines
     }
-    free_struct(&command);
+
+    free(lines); // Free the array of lines
     return (0);
 }
 
@@ -61,7 +63,7 @@ int main(void)
 
 	if (!isatty(STDIN_FILENO))
 	{
-		if (run())
+		if (run(NON_INTERACTIVE))
 			_print("\n");
 		return (0);
 	}
@@ -70,7 +72,7 @@ int main(void)
 	while (1)
 	{
 		_print("($) ");
-		if (run())
+		if (run(INTERACTIVE))
 		{
 			break;
 		}        

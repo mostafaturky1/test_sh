@@ -18,6 +18,8 @@
 #define DELIM_PATH ";"
 #define STATUS_FAILED  -1
 #define STATUS_SUCCESS  1
+#define INTERACTIVE 1
+#define NON_INTERACTIVE 0
 
 extern char **environ;
 
@@ -64,10 +66,6 @@ void unsetenv_command(str_cmd *command);
 void setenv_command(str_cmd *command);
 int _addenv(const char *name, const char *value);
 
-/* main.c */
-int run(void);
-
-
 /*
 To Do: command_clean() to free any static variable if exist
 
@@ -93,7 +91,7 @@ char *_strchr(const char *str, int ch);
 char* _strdup(const char* str);
 
 /* getline.c */
-/* str_cmd _getline(void); */
+char** _getlines(FILE *stream, size_t *line_count, int mode);
 
 /* parser.c */
 void Parser(str_cmd *command);
