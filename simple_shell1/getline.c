@@ -1,83 +1,168 @@
 #include "shell.h"
 
-char * _getline(FILE *stream) {
 
-    size_t i;
-    char * command;
-    size_t remaining;
-    static char input_buffer[BUFFER_SIZE];
-    static size_t input_buffer_pos = 0;
-    ssize_t bytes_read;
+char* readInput(int mode) {
+    char buffer[BUFFER_SIZE];
+    char* result = NULL;
+    size_t totalSize = 0;
+    ssize_t i = 0;
 
-    if (stream == NULL) {
-        return NULL; /* Invalid input */
+    ssize_t bytesRead;
+    printf("read\n");
+    while ((bytesRead = read(STDIN_FILENO, buffer, BUFFER_SIZE)) > 0) {
+        printf("read\n");
+        /*  Allocate memory for the result buffer */
+        result = realloc(result, totalSize + bytesRead + 1);
+        if (result == NULL) {
+            exit(EXIT_FAILURE);
+        }
+
+        /*  Copy the current buffer to the result buffer */
+        for (i = 0; i < bytesRead; ++i) {
+            result[totalSize + i] = buffer[i];
+        }
+        
+        /* // Update the total size */
+        totalSize += bytesRead;
+
+        if (mode == INTERACTIVE && buffer[i-1] == '\n') break;
     }
 
-    while (1) {
-        if (input_buffer_pos == 0) {
-            bytes_read = read(STDIN_FILENO, input_buffer, BUFFER_SIZE);
-            if (bytes_read < 0) {
-                perror("read");
-                exit(1);
-            } else if (bytes_read == 0) {
-                /* End of input */
-                _printchar('\n');
-               return NULL; 
-            }
-            input_buffer_pos = (size_t)bytes_read;
-        }
-        /* Search for a newline character in the buffer */
-        for (i = 0; i < input_buffer_pos; i++) {
-            if (input_buffer[i] == '\n') {
-                /* Null-terminate the line */
-                input_buffer[i] = '\0';
-                /* Create a copy of the line */
-                command = _strdup(input_buffer);
-                /* Move the remaining data to the beginning of the buffer */
-                remaining = input_buffer_pos - i - 1;
-                _memmove(input_buffer, input_buffer + i + 1, remaining);
-                input_buffer_pos = remaining;
-                return (command);
-            }
-        }
-        /* No newline found, move the remaining data to the beginning of the buffer */
-        remaining = input_buffer_pos;
-        _memmove(input_buffer, input_buffer + input_buffer_pos, remaining);
-        input_buffer_pos = remaining;
+    /* // Check for read errors */
+    if (bytesRead == -1) {
+        exit(EXIT_FAILURE);
     }
+
+    /* // Null-terminate the result string */
+    result[totalSize] = '\0';
+    
+    return result;
 }
 
-char** _getlines(size_t *line_count, int mode) {
-    char **lines = NULL;
-    char **new_lines;
-    char *line = NULL;
-    *line_count = 0;
+char** splitLines(const char* input, size_t* lineCount) {
+    size_t bufferSize = 1; /* // Initial buffer size for storing pointers to lines */
+    size_t count = 0; /* // Number of lines found */
+    const char* start = input;
+    const char* end;
+
+
+    char** lines = malloc(bufferSize * sizeof(char*));
+    if (lines == NULL) {
+        perror("Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
     
-
-    while (1) {
-        line = _getline(stdin);
-
-        if (line == NULL){
-            line_count--;
-            return lines;
+    while ((end = strchr(start, '\n')) != NULL || (end = strchr(start, '\0'))) {
+        /* // Calculate the length of the line */
+        size_t length = end - start;
+        /* // Allocate memory for the line */
+        lines[count] = malloc((length + 1) * sizeof(char));/*  // +1 for the null terminator */
+        if (lines[count] == NULL) {
+            perror("Memory allocation error");
+            exit(EXIT_FAILURE);
         }
-    
-        /*  Allocate memory for the new line and copy it into the array */
-        new_lines = (char **)realloc(lines, (*line_count + 1) * sizeof(char *));
-        if (new_lines == NULL) {
-            break;
+
+        /* // Copy the line to the allocated memory */
+        strncpy(lines[count], start, length);
+        lines[count][length] = '\0'; /* // Null-terminate the line */
+
+        count++;
+
+        /* // Resize the buffer if needed */
+        if (count == bufferSize) {
+            bufferSize++;
+            lines = realloc(lines, bufferSize * sizeof(char*));
+            if (lines == NULL) {
+                perror("Memory allocation error");
+                exit(EXIT_FAILURE);
+            }
         }
-        lines = new_lines;
 
-        lines[*line_count] = strdup(line);
-
-        (*line_count)++;
-
-        if (mode == INTERACTIVE) break;
-
+        /* // Move to the next line */
+        start = end + 1;
     }
 
-    free(line);
+    /* // Check for the last line (no newline at the end) */
+    if (start < input + strlen(input)) {
+        size_t length = input + strlen(input) - start;
+
+        /* // Allocate memory for the last line */
+        lines[count] = malloc((length + 1) * sizeof(char));
+        if (lines[count] == NULL) {
+            perror("Memory allocation error");
+            exit(EXIT_FAILURE);
+        }
+
+        /* // Copy the last line to the allocated memory */
+        strncpy(lines[count], start, length);
+        lines[count][length] = '\0'; /* // Null-terminate the last line */
+
+        count++;
+    }
+
+    /* // Set the final line count */
+    *lineCount = count;
+
     return lines;
 }
 
+
+char* trimSpaces(const char* input) {
+    size_t length = strlen(input);
+    size_t endIndex=0;
+    size_t trimmedLength=0;
+    char* trimmedString;
+
+    /* // Find the start index of non-space character */
+    size_t startIndex = 0;
+    while (startIndex < length && isspace(input[startIndex])) {
+        startIndex++;
+    }
+
+    /* // Find the end index of non-space character */
+    endIndex = length - 1;
+    while (endIndex > startIndex && isspace(input[endIndex])) {
+        endIndex--;
+    }
+
+    /* // Calculate the size of the trimmed string */
+    trimmedLength = (startIndex <= endIndex) ? (endIndex - startIndex + 1) : 0;
+
+    /* // Allocate memory for the trimmed string */
+    trimmedString = malloc(trimmedLength + 1); /* // +1 for the null terminator */
+    if (trimmedString == NULL) {
+        perror("Memory allocation error");
+        return trimmedString;
+    }
+
+    /* // Copy the trimmed part to the new string */
+    if (trimmedLength > 0) {
+        strncpy(trimmedString, input + startIndex, trimmedLength);
+    }
+
+    /* // Null-terminate the trimmed string */
+    trimmedString[trimmedLength] = '\0';
+
+    return trimmedString;
+}
+
+char** _getlines(size_t *lineCount, int mode)
+{
+    char* input, **lines;
+    size_t i;
+    char* timmedLine;
+
+    input = readInput(mode);
+    printf("input: %s\n", input);
+    lines = splitLines(input, lineCount);
+    printf("line count: %lu\n", *lineCount); 
+    for ( i = 0; i < *lineCount; ++i) {
+        timmedLine = lines[i];
+        lines[i] = trimSpaces(timmedLine);
+        printf("lines[%lu] = %s\n", i, lines[i]);
+        free(timmedLine);
+    }
+
+    free(input);
+    return(lines);
+}

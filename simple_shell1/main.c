@@ -29,7 +29,8 @@ int run(int mode)
         if(!command.arg || !command.arg[0]){
             command.executablePath = NULL;
             free_struct(&command);
-            return (0);
+            free(lines[i]); 
+            continue;
         }
 
          
@@ -41,11 +42,11 @@ int run(int mode)
         
         }
         
-        
+        free_struct(&command);
         free(lines[i]); /*  Free individual lines */
     }
 
-    free_struct(&command);
+    
     free(lines); /*  Free the array of lines */
     return (0);
 }
@@ -64,7 +65,7 @@ int main(void)
 
     if (!isatty(STDIN_FILENO))
     {
-        if (run(NON_INTERACTIVE))
+        run(NON_INTERACTIVE);
         return (0);
     }
 

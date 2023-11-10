@@ -22,7 +22,7 @@ void exit_command(str_cmd *command) {
 
 void contol_C(int sig_num)
 {
-	char *prompt = "\n($) ";
+	char *prompt = "\n($)";
 
 	if (sig_num == SIGINT)
 	{

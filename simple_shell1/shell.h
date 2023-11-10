@@ -76,6 +76,7 @@ To Do: command_clean() to free any static variable if exist
  */
 void exit_command(str_cmd *command);
 void contol_C(int sig_num);
+
 /* ls.c */
 void default_command(str_cmd *command);
 
