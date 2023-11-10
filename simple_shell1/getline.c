@@ -10,7 +10,7 @@ char * _getline(FILE *stream) {
     ssize_t bytes_read;
 
     if (stream == NULL) {
-        return NULL; // Invalid input
+        return NULL; /* Invalid input */
     }
 
     while (1) {
@@ -62,10 +62,9 @@ char** _getlines(size_t *line_count, int mode) {
             return lines;
         }
     
-        // Allocate memory for the new line and copy it into the array
+        /*  Allocate memory for the new line and copy it into the array */
         new_lines = (char **)realloc(lines, (*line_count + 1) * sizeof(char *));
         if (new_lines == NULL) {
-            printf("Memory allocation error.\n");
             break;
         }
         lines = new_lines;

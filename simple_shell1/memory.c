@@ -65,7 +65,9 @@ void free_struct(str_cmd *command)
     while (command->arg[i])
     {
         if(command->arg[i] != NULL)
+        {
         free(command->arg[i]);
+        }
         i++;
     }
     if(command->arg != NULL)

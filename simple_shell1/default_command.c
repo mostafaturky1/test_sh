@@ -2,8 +2,6 @@
 
 void default_command(str_cmd *command)
 {
-	printf("default command\n");
-	printf("command %s\n", command->arg[0]);
     exec(command->executablePath, command->arg, environ);
 } 
 

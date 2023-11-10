@@ -15,12 +15,10 @@ int run(int mode)
     lines = _getlines(&line_count, mode);
 
     if (!lines) {
-        printf("line is NULL\n");
         return -1;
     }
 
 
-    printf("line count: %lu\n", line_count);
     for (i = 0; i < line_count; i++) {
         
         command.input = _strdup(lines[i]);
@@ -36,7 +34,7 @@ int run(int mode)
 
          
         execute(&command);
-    
+        
         if(command.output_status == STATUS_FAILED){
             _print(command.output_message);
             _print("\n");
@@ -44,11 +42,11 @@ int run(int mode)
         }
         
         
-        free(lines[i]); // Free individual lines
+        free(lines[i]); /*  Free individual lines */
     }
 
     free_struct(&command);
-    free(lines); // Free the array of lines
+    free(lines); /*  Free the array of lines */
     return (0);
 }
 
@@ -63,7 +61,6 @@ contain application loop that calls one function which is the run()
 */
 int main(void)
 {
-    int i = 0;
 
     if (!isatty(STDIN_FILENO))
     {
@@ -80,11 +77,6 @@ int main(void)
             break;
         }        
     }
-    while (environ[i] != NULL)
-        {
-            free(environ[i]);
-            i++;
-        }
     return (0);
 
 
