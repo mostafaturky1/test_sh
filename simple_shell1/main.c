@@ -1,18 +1,16 @@
 #include "shell.h"
 
 
-int run(int mode)
+int isInteractiveMode(void){
+	return isatty(STDIN_FILENO);
+}
+
+int run(char **lines, size_t line_count)
 {
     str_cmd command;
-    size_t line_count = 0;
-    char **lines = NULL;
     size_t i;
-    
-    command.output_message = NULL;
-   
-  
 
-    lines = _getlines(&line_count, mode);
+    command.output_message = NULL;
 
     if (!lines) {
         return -1;
@@ -33,10 +31,25 @@ int run(int mode)
             continue;
         }
 
-         
+
         execute(&command);
         
-        if(command.output_status == STATUS_FAILED){
+        if(command.output_status == STATUS_FAILED_FULL){
+            _print("/bin/bash: line ");   // need to be hsh
+            _printInt(i+1);
+            _print(": ");
+            _print(command.arg[0]);
+            _print(": ");
+            _print(command.output_message);
+            _print("\n");
+        
+        }
+
+        if(command.output_status == STATUS_FAILED_PARTIAL){
+            _print(getCommand(command.arg[0]));
+            _print(": ");
+            _print(command.arg[1]);
+            _print(": ");
             _print(command.output_message);
             _print("\n");
         
@@ -62,18 +75,24 @@ contain application loop that calls one function which is the run()
 */
 int main(void)
 {
-
-    if (!isatty(STDIN_FILENO))
-    {
-        run(NON_INTERACTIVE);
-        return (0);
-    }
-
+	size_t line_count = 0;
+    char **lines = NULL;
+	int status = 1;
+	char **(*input_func)(size_t*) = _getAll;
+   
     signal(SIGINT, contol_C);
+
     while (1)
     {
-        _print("($) ");
-        if (run(INTERACTIVE))
+		if(isInteractiveMode()){
+		    _print("($) ");
+            input_func = _getline;
+		}
+
+		lines = (*input_func)(&line_count);
+       	status = run(lines, line_count);
+
+        if (status || !isInteractiveMode())
         {
             break;
         }        

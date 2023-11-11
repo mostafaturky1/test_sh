@@ -17,7 +17,8 @@
 #define BUFFER_SIZE 1024
 #define DELIM_COMMAND " "
 #define DELIM_PATH ";"
-#define STATUS_FAILED  -1
+#define STATUS_FAILED_FULL  -1
+#define STATUS_FAILED_PARTIAL  -2
 #define STATUS_SUCCESS  1
 
 #define INTERACTIVE 1
@@ -86,13 +87,17 @@ char *_strcpy(char *dest, const char *src);
 int _strcmp(const char *str1, const char *str2);
 char *_strcat(char *destination, const char *source);
 int _printchar(char c);
+int _printInt(size_t c);
 void _print(char *str);
 char *_strtok(char *str, const char *delim);
 char *_strchr(const char *str, int ch);
+char* _strrchr(const char* str, int character);
 char* _strdup(const char* str);
+char* getCommand(const char* path);
 
 /* getline.c */
-char** _getlines(size_t *line_count, int mode);
+char** _getAll(size_t *line_count);
+char** _getline(size_t *line_count);
 
 /* env.c */
 char* _getenv(const char* varname);

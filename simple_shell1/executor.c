@@ -4,6 +4,7 @@
 void execute(str_cmd *command){
     
     void (*command_executor) (str_cmd*) = default_command;
+    command->output_status = STATUS_SUCCESS;
 
     findExecutablePath(command);
 
@@ -17,21 +18,24 @@ void execute(str_cmd *command){
 
     }
     if(_strchr(command->arg[0], '/') != NULL)
-    {
+    {   
         command->executablePath = _strdup(command->arg[0]);
     }
 
-    command->output_status = STATUS_SUCCESS;
     if(command_executor == default_command && command->executablePath == NULL){
-            command->output_message = _strcat("hsh: ", command->arg[0]);
-            command->output_message = _strcat(command->output_message, ": not found");
-            command->output_status = STATUS_FAILED;
+            command->output_message = _strcat(command->output_message, "command not found");
+            command->output_status = STATUS_FAILED_FULL;
             return;
     }
 
-    (*command_executor)(command);
+    if (command_executor == default_command && access(command->executablePath, X_OK) != 0) 
+    {
+        command->output_message = _strcat(command->output_message, "No such file or directory");
+        command->output_status = STATUS_FAILED_FULL;
+        return;
+    }
 
-    
+    (*command_executor)(command);
     
 }
 

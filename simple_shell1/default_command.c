@@ -2,7 +2,10 @@
 
 void default_command(str_cmd *command)
 {
-    exec(command->executablePath, command->arg, environ);
+    if(exec(command->executablePath, command->arg, environ)){
+		command->output_status = STATUS_FAILED_PARTIAL;
+		command->output_message = "No such file or directory";
+	}
 } 
 
 

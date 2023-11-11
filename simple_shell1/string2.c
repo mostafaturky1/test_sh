@@ -13,6 +13,39 @@ int _printchar(char c)
 }
 
 /**
+ * _printInt - writes the integer c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _printInt(size_t c)
+{
+    char buffer[20]; // Assuming a maximum of 20 digits
+    int i = 0;
+    int j;
+
+	if (c == 0) {
+        _printchar('0'); // If the size_t value is 0, print '0'
+        return 0;
+    }
+
+    // Extract and store the digits in reverse order
+    while (c > 0) {
+        buffer[i] = '0' + (c % 10); // Convert the digit to a character
+        c /= 10;
+        i++;
+    }
+
+    // Print the digits in reverse order
+    for (j = i - 1; j >= 0; j--) {
+        _printchar(buffer[j]);
+    }
+
+    return 0;
+}
+
+/**
  * _print - prints a string
  * @str: pointer to string
  */
