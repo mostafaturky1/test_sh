@@ -100,6 +100,10 @@ char** splitLines(const char* input, size_t* lineCount) {
     while ((end = _strchr(start, '\n')) != NULL) 
     {
         size_t length = end - start;
+        if (length == 0){
+            start = end + 1;
+            continue;
+        }
 
         lines[count] = malloc((length + 1) * sizeof(char)); /* +1 for the null terminator */
         if (lines[count] == NULL) {
@@ -134,7 +138,6 @@ char* trimSpaces(const char* input) {
     size_t trimmedLength=0;
     char* trimmedString;
     size_t startIndex = 0;
-
     while (startIndex < length && _isspace(input[startIndex])) {
         startIndex++;
     }

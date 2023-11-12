@@ -9,7 +9,19 @@
  */
 int _printchar(char c)
 {
-	return (write(1, &c, 1));
+	return (write(fileno(stdout), &c, 1));
+}
+
+/**
+ * _printchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _printcharFile(FILE* stream, char c)
+{
+	return (write(fileno(stream), &c, 1));
 }
 
 /**
@@ -39,7 +51,40 @@ int _printInt(size_t c)
 
     /* Print the digits in reverse order */
     for (j = i - 1; j >= 0; j--) {
-        _printchar(buffer[j]);
+        _printcharFile(stdout, buffer[j]);
+    }
+
+    return 0;
+}
+
+/**
+ * _printIntErr - writes the integer c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _printIntErr(size_t c)
+{
+    char buffer[20]; // Assuming a maximum of 20 digits
+    int i = 0;
+    int j;
+
+	if (c == 0) {
+        _printcharFile(stderr, '0'); // If the size_t value is 0, print '0'
+        return 0;
+    }
+
+    // Extract and store the digits in reverse order
+    while (c > 0) {
+        buffer[i] = '0' + (c % 10); // Convert the digit to a character
+        c /= 10;
+        i++;
+    }
+
+    // Print the digits in reverse order
+    for (j = i - 1; j >= 0; j--) {
+        _printcharFile(stderr, buffer[j]);
     }
 
     return 0;
@@ -56,7 +101,23 @@ void _print(char *str)
 
 	while (str[i])
 	{
-		_printchar(str[i]);
+		_printcharFile(stdout ,str[i]);
+		i++;
+	}
+}
+
+/**
+ * _printErr - prints a string
+ * @str: pointer to string
+ */
+
+void _printErr(char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		_printcharFile(stderr, str[i]);
 		i++;
 	}
 }

@@ -29,7 +29,21 @@ int exec(char *command, char *arguments[], char *const env[])
 
 	if (child_pid == 0)
 	{
-		execve(command, arguments, env);
+
+		int dev_null = open("/dev/null", O_WRONLY);
+        if (dev_null == -1) {
+            perror("Failed to open /dev/null");
+            exit(EXIT_FAILURE);
+        }
+        if (dup2(dev_null, STDERR_FILENO) == -1) {
+            perror("Failed to redirect stderr");
+            exit(EXIT_FAILURE);
+        }
+		
+		status = execve(command, arguments, env);
+		if (status == -1) {
+    		errno = 0;
+		}
 		exit(EXIT_FAILURE);
 		
 	} else if (child_pid > 0)

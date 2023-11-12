@@ -54,7 +54,7 @@ if [ $? -eq 0 ]; then
     # Define a function to run tests and compare output
     run_test() {
         echo "\n[*] Running Test Case [${BLUE}$1${NC} in Set ${BLUE}$2${NC}]"
-        echo "$3" | ./hsh > $hsh_output
+        echo "$3" | ./hsh > $hsh_output 2>&1
         echo "$3" | /bin/bash > $sh_output 2>&1
         
         if diff $sh_output $hsh_output > $hsh_diff; then

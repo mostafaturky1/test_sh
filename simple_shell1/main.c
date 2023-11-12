@@ -9,8 +9,7 @@ int run(char **lines, size_t line_count)
 {
     str_cmd command;
     size_t i;
-
-    command.output_message = NULL;
+    int status = EXIT_SUCCESS;
 
     if (!lines) {
         return -1;
@@ -19,8 +18,11 @@ int run(char **lines, size_t line_count)
 
     for (i = 0; i < line_count; i++) {
         
-        command.input = _strdup(lines[i]);
+        status = EXIT_SUCCESS;
+        command.output_message = NULL;
+        command.output_status = STATUS_SUCCESS;
 
+        command.input = _strdup(lines[i]);
         Parser(&command);
        
 
@@ -35,24 +37,24 @@ int run(char **lines, size_t line_count)
         execute(&command);
         
         if(command.output_status == STATUS_FAILED_FULL){
-            _print("./hsh: ");   /* need to be hsh */
-            _printInt(i+1);
-            _print(": ");
-            _print(command.arg[0]);
-            _print(": ");
-            _print(command.output_message);
-            _print("\n");
-        
+            _printErr("/bin/bash: line ");   // need to be hsh
+            _printIntErr(i+1);
+            _printErr(": ");
+            _printErr(command.arg[0]);
+            _printErr(": ");
+            _printErr(command.output_message);
+            _printErr("\n");
+            status = EXIT_FAILURE;
         }
 
         if(command.output_status == STATUS_FAILED_PARTIAL){
-            _print(getCommand(command.arg[0]));
-            _print(": ");
-            _print(command.arg[1]);
-            _print(": ");
-            _print(command.output_message);
-            _print("\n");
-        
+            _printErr(getCommand(command.arg[0]));
+            _printErr(": ");
+            _printErr(command.arg[1]);
+            _printErr(": ");
+            _printErr(command.output_message);
+            _printErr("\n");
+            status = EXIT_FAILURE;
         }
         
         free_struct(&command);
@@ -61,7 +63,7 @@ int run(char **lines, size_t line_count)
 
     
     free(lines); /*  Free the array of lines */
-    return (0);
+    return (status); /* Return status */
 }
 
 
@@ -77,7 +79,7 @@ int main(void)
 {
 	size_t line_count = 0;
     char **lines = NULL;
-	int status = 1;
+	int status = EXIT_SUCCESS;
 	char **(*input_func)(size_t*) = _getAll;
    
     signal(SIGINT, contol_C);
@@ -97,7 +99,7 @@ int main(void)
             break;
         }        
     }
-    return (0);
+    return status;
 
 
 }
