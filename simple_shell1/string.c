@@ -49,30 +49,25 @@ int _strcmp(const char *str1, const char *str2) {
 }
 
 char *_strcat(char *dest, const char *src) {
-    size_t dest_len;
-    size_t src_len;
-    char *new_str = NULL;
-    size_t i;
-    
-    dest_len = _strlen(dest);
-    src_len = _strlen(src);
-    new_str = (char *)malloc(dest_len + src_len + 1); 
-    if (new_str == NULL) {
-        perror("Memory allocation failed");
-        return NULL;
+    /* Find the null terminator of dest */
+    size_t dest_len = 0, i;
+
+    while (dest[dest_len] != '\0') {
+        dest_len++;
     }
 
-    _strcpy(new_str, dest);
-    
-    for (i = 0; i < src_len; i++) {
-        new_str[dest_len + i] = src[i];
+    /*  Copy the characters from src to dest, starting from the null terminator of dest */
+    i = 0;
+    while (src[i] != '\0') {
+        dest[dest_len + i] = src[i];
+        i++;
     }
 
-    new_str[dest_len + src_len] = '\0';  /*  Add the null-terminator. */
+    /*  Null-terminate the resulting string */
+    dest[dest_len + i] = '\0';
 
-    return new_str;
+    return dest;
 }
-
 
 char *_strchr(const char *str, int ch) {
     while (*str != '\0') {

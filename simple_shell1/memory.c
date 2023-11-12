@@ -27,21 +27,17 @@ void *_realloc(void *ptr, size_t size) {
     void *new_ptr;
 
     if (ptr == NULL) {
-        /* If ptr is NULL, this behaves like malloc */
         return malloc(size);
     }
 
     if (size == 0) {
-        /* If size is 0, this behaves like free and releases the memory */
         free(ptr);
         return NULL;
     }
 
-    /* Allocate a new block of memory with the desired size */
     new_ptr = malloc(size);
 
     if (new_ptr != NULL) {
-        /* Copy the data from the old block to the new block */
         copy_size = size;
         if (size > sizeof(size_t)) {
             copy_size = size - sizeof(size_t);
@@ -51,7 +47,6 @@ void *_realloc(void *ptr, size_t size) {
             ((char *)new_ptr)[i] = ((char *)ptr)[i];
         }
 
-        /* Free the old block */
         free(ptr);
     }
 
@@ -75,5 +70,19 @@ void free_struct(str_cmd *command)
     if(command->input != NULL)
     free(command->input);
     if(command->executablePath != NULL)
+    {
         free(command->executablePath);
+    }
+}
+
+void *_memcpy(void *dest, const void *src, size_t n) {
+    char *dest_ptr = (char *)dest;
+    const char *src_ptr = (const char *)src;
+    size_t i;
+
+    for (i = 0; i < n; i++) {
+        dest_ptr[i] = src_ptr[i];
+    }
+
+    return dest;
 }

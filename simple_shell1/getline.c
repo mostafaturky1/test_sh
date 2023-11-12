@@ -1,5 +1,8 @@
 #include "shell.h"
 
+int _isspace(char c) {
+    return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f');
+}
 
 char* readLine(void) {
     char buffer[1024];
@@ -9,20 +12,20 @@ char* readLine(void) {
     char* newlinePos;
 
     while ((bytesRead = read(0, buffer, sizeof(buffer))) > 0) {
-        char* temp = (char*)realloc(input, totalSize + bytesRead + 1);
+        char* temp = (char*)_realloc(input, totalSize + bytesRead + 1);
         if (temp == NULL) {
             perror("Memory allocation error");
             free(input);
             return NULL;
         }
         input = temp;
-        memcpy(input + totalSize, buffer, bytesRead);
+        _memcpy(input + totalSize, buffer, bytesRead);
         totalSize += bytesRead;
         input[totalSize] = '\0';
 
-        newlinePos = strchr(input, '\n');
+        newlinePos = _strchr(input, '\n');
         if (newlinePos != NULL) {
-            //*newlinePos = '\0';  // Replace newline with null terminator
+            newlinePos = "\0";  /* Replace newline with null terminator */ 
             break;
         }
     }
@@ -35,11 +38,11 @@ char* readAll(void) {
     char* result = NULL;
     size_t totalSize = 0;
     ssize_t i = 0;
-
     ssize_t bytesRead;
+    
     while ((bytesRead = read(STDIN_FILENO, buffer, BUFFER_SIZE)) > 0) {
         /*  Allocate memory for the result buffer */
-        result = realloc(result, totalSize + bytesRead + 1);
+        result = realloc(result, totalSize + bytesRead + 1); /* need to be a buildin */
         if (result == NULL) {
             exit(EXIT_FAILURE);
         }
@@ -65,10 +68,10 @@ char* readAll(void) {
 }
 
 void finalizeLines(char** lines, size_t* lineCount, const char* input) {
-    const char* start = input + strlen(input) - 1;
+    const char* start = input + _strlen(input) - 1;
 
     if (*start != '\n') {
-        size_t length = strlen(input);
+        size_t length = _strlen(input);
         lines[*lineCount] = malloc((length + 1) * sizeof(char));
         if (lines[*lineCount] == NULL) {
             perror("Memory allocation error");
@@ -94,7 +97,7 @@ char** splitLines(const char* input, size_t* lineCount) {
         exit(EXIT_FAILURE);
     }
     
-    while ((end = strchr(start, '\n')) != NULL) 
+    while ((end = _strchr(start, '\n')) != NULL) 
     {
         size_t length = end - start;
 
@@ -111,7 +114,7 @@ char** splitLines(const char* input, size_t* lineCount) {
 
         if (count == bufferSize) {
             bufferSize++;
-            lines = realloc(lines, bufferSize * sizeof(char*));
+            lines = _realloc(lines, bufferSize * sizeof(char*));
             if (lines == NULL) {
                 perror("Memory allocation error");
                 exit(EXIT_FAILURE);
@@ -125,22 +128,20 @@ char** splitLines(const char* input, size_t* lineCount) {
     return lines;
 }
 
-
 char* trimSpaces(const char* input) {
-    size_t length = strlen(input);
+    size_t length = _strlen(input);
     size_t endIndex=0;
     size_t trimmedLength=0;
     char* trimmedString;
-
-    /* // Find the start index of non-space character */
     size_t startIndex = 0;
-    while (startIndex < length && isspace(input[startIndex])) {
+
+    while (startIndex < length && _isspace(input[startIndex])) {
         startIndex++;
     }
 
     /* // Find the end index of non-space character */
     endIndex = length - 1;
-    while (endIndex > startIndex && isspace(input[endIndex])) {
+    while (endIndex > startIndex && _isspace(input[endIndex])) {
         endIndex--;
     }
 
@@ -156,7 +157,7 @@ char* trimSpaces(const char* input) {
 
     /* // Copy the trimmed part to the new string */
     if (trimmedLength > 0) {
-        strncpy(trimmedString, input + startIndex, trimmedLength);
+        _strncpy(trimmedString, input + startIndex, trimmedLength);
     }
 
     /* // Null-terminate the trimmed string */
@@ -205,17 +206,15 @@ char** _getline(size_t *lineCount)
     return(lines);
 }
 
-
-
 char* getCommand(const char* path) {
-    // Find the last occurrence of the directory separator
+    /* // Find the last occurrence of the directory separator */
     const char* lastSeparator = _strrchr(path, '/');
     
-    // If the separator is found, return the substring after it
+    /* // If the separator is found, return the substring after it */
     if (lastSeparator != NULL) {
         return _strdup(lastSeparator + 1);
     } else {
-        // If no separator is found, the whole path is the last part
+        /* // If no separator is found, the whole path is the last part */
         return _strdup(path);
     }
 }

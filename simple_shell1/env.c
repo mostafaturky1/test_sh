@@ -8,10 +8,10 @@ char* _getenv(const char* varname) {
         return NULL;
     }
 
-    varname_len = strlen(varname);
+    varname_len = _strlen(varname);
 
     for (env = environ; *env != NULL; env++) {
-        if (strncmp(*env, varname, varname_len) == 0 && (*env)[varname_len] == '=') {
+        if (_strncmp(*env, varname, varname_len) == 0 && (*env)[varname_len] == '=') {
             return &(*env)[varname_len + 1]; /*  Return the value part of the environment variable */
         }
     }
@@ -34,10 +34,10 @@ void* findExecutablePath(str_cmd* command) {
 
     while (token != NULL) {
         /*  Check if the executable file exists in the current directory */
-        fullPath = (char*)malloc(strlen(token) + 1 + strlen(command->arg[0]) + 1);
+        fullPath = (char*)malloc(_strlen(token) + 1 + _strlen(command->arg[0]) + 1);
         _strcpy(fullPath, token);
-        strcat(fullPath, "/");
-        strcat(fullPath, command->arg[0]);
+        _strcat(fullPath, "/");
+        _strcat(fullPath, command->arg[0]);
 
         if (access(fullPath, X_OK) == 0) {
             command->executablePath = _strdup(fullPath);
@@ -78,7 +78,7 @@ int _unsetenv(const char *name) {
         return -1;
 
     while (*current != NULL) {
-        if (strstr(*current, name) == *current) {
+        if (_strstr(*current, name) == *current) {
             /* Found the environment variable, remove it */
             if (previous == NULL) {
                 /* Variable to be removed is at the beginning of the environment */

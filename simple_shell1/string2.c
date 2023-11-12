@@ -21,23 +21,23 @@ int _printchar(char c)
  */
 int _printInt(size_t c)
 {
-    char buffer[20]; // Assuming a maximum of 20 digits
+    char buffer[20]; /* Assuming a maximum of 20 digits */
     int i = 0;
     int j;
 
 	if (c == 0) {
-        _printchar('0'); // If the size_t value is 0, print '0'
+        _printchar('0'); /* If the size_t value is 0, print '0' */
         return 0;
     }
 
-    // Extract and store the digits in reverse order
+    /* Extract and store the digits in reverse order */
     while (c > 0) {
-        buffer[i] = '0' + (c % 10); // Convert the digit to a character
+        buffer[i] = '0' + (c % 10); /* Convert the digit to a character */
         c /= 10;
         i++;
     }
 
-    // Print the digits in reverse order
+    /* Print the digits in reverse order */
     for (j = i - 1; j >= 0; j--) {
         _printchar(buffer[j]);
     }
@@ -96,7 +96,7 @@ char* _strdup(const char* str) {
         return NULL;  /*  Handle the case of a NULL input string. */
     }
 
-    len = strlen(str) + 1;  /* +1 for the null terminator */
+    len = _strlen(str) + 1;  /* +1 for the null terminator */
 
     copy = (char*)malloc(len);
     if (copy != NULL) {
@@ -104,4 +104,54 @@ char* _strdup(const char* str) {
     }
 
     return copy;
+}
+
+int _strncmp(const char *str1, const char *str2, size_t n) {
+    while (n > 0 && *str1 && (*str1 == *str2)) {
+        str1++;
+        str2++;
+        n--;
+    }
+
+    if (n == 0) {
+        return 0;
+    } else {
+        return *(unsigned char *)str1 - *(unsigned char *)str2;
+    }
+}
+
+char *_strstr(const char *haystack, const char *needle) {
+    while (*haystack) {
+        const char *hay_ptr = haystack;
+        const char *needle_ptr = needle;
+
+        while (*hay_ptr && *needle_ptr && (*hay_ptr == *needle_ptr)) {
+            hay_ptr++;
+            needle_ptr++;
+        }
+
+        if (!(*needle_ptr)) {
+            return (char *)haystack;
+        }
+
+        haystack++;
+    }
+
+    return NULL;
+}
+
+char *_strncpy(char *dest, const char *src, size_t n) {
+    char *dest_ptr = dest;
+    const char *src_ptr = src;
+
+    size_t i;
+    for (i = 0; i < n && src_ptr[i] != '\0'; i++) {
+        dest_ptr[i] = src_ptr[i];
+    }
+
+    for (; i < n; i++) {
+        dest_ptr[i] = '\0';
+    }
+
+    return dest;
 }

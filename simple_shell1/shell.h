@@ -94,6 +94,9 @@ char *_strchr(const char *str, int ch);
 char* _strrchr(const char* str, int character);
 char* _strdup(const char* str);
 char* getCommand(const char* path);
+int _strncmp(const char *str1, const char *str2, size_t n);
+char *_strstr(const char *haystack, const char *needle);
+char *_strncpy(char *dest, const char *src, size_t n);
 
 /* getline.c */
 char** _getAll(size_t *line_count);
@@ -116,6 +119,8 @@ void Parser(str_cmd *command);
 void *_realloc(void *ptr, size_t size);
 void free_struct(str_cmd *command);
 void* _memmove(void* dest, const void* src, size_t n);
+void *_realloc2(void *ptr, size_t old_size, size_t new_size);
+void *_memcpy(void *dest, const void *src, size_t n);
 
 
 int exec(char *command, char *arguments[], char *const env[]);

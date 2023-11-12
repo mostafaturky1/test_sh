@@ -35,7 +35,7 @@ int run(char **lines, size_t line_count)
         execute(&command);
         
         if(command.output_status == STATUS_FAILED_FULL){
-            _print("/bin/bash: line ");   // need to be hsh
+            _print("./hsh: ");   /* need to be hsh */
             _printInt(i+1);
             _print(": ");
             _print(command.arg[0]);
