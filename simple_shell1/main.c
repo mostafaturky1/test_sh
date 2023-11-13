@@ -35,7 +35,7 @@ int run(char **lines, size_t line_count)
 
 
         execute(&command);
-        
+
         if(command.output_status == STATUS_FAILED_FULL){
             _printErr("./hsh: ");   /*  need to be hsh */
             _printIntErr(i+1);
@@ -56,12 +56,10 @@ int run(char **lines, size_t line_count)
             _printErr("\n");
             status = _EXIT_FAILURE;
         }
-        
         free_struct(&command);
         free(lines[i]); /*  Free individual lines */
     }
 
-    
     free(lines); /*  Free the array of lines */
     return (status); /* Return status */
 }
