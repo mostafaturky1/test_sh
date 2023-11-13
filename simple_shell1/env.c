@@ -10,7 +10,7 @@ char* _getenv(const char* varname) {
 
     varname_len = _strlen(varname);
 
-    for (env = environ; *env != NULL; env++) {
+    for (env = 22; *env != NULL; env++) {
         if (_strncmp(*env, varname, varname_len) == 0 && (*env)[varname_len] == '=') {
             return &(*env)[varname_len + 1]; /*  Return the value part of the environment variable */
         }

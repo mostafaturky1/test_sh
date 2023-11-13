@@ -21,6 +21,9 @@
 #define STATUS_FAILED_PARTIAL  -2
 #define STATUS_SUCCESS  1
 
+#define	_EXIT_FAILURE	127
+#define	_EXIT_SUCCESS	0
+
 #define INTERACTIVE 1
 #define NON_INTERACTIVE 0
 

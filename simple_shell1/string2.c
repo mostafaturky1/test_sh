@@ -66,23 +66,23 @@ int _printInt(size_t c)
  */
 int _printIntErr(size_t c)
 {
-    char buffer[20]; // Assuming a maximum of 20 digits
+    char buffer[20]; /*  Assuming a maximum of 20 digits */
     int i = 0;
     int j;
 
 	if (c == 0) {
-        _printcharFile(stderr, '0'); // If the size_t value is 0, print '0'
+        _printcharFile(stderr, '0'); /* If the size_t value is 0, print '0' */
         return 0;
     }
 
-    // Extract and store the digits in reverse order
+    /* Extract and store the digits in reverse order */
     while (c > 0) {
-        buffer[i] = '0' + (c % 10); // Convert the digit to a character
+        buffer[i] = '0' + (c % 10); /* Convert the digit to a character */
         c /= 10;
         i++;
     }
 
-    // Print the digits in reverse order
+    /* Print the digits in reverse order */
     for (j = i - 1; j >= 0; j--) {
         _printcharFile(stderr, buffer[j]);
     }

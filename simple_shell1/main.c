@@ -37,14 +37,14 @@ int run(char **lines, size_t line_count)
         execute(&command);
         
         if(command.output_status == STATUS_FAILED_FULL){
-            _printErr("/bin/bash: line ");   // need to be hsh
+            _printErr("./hsh: ");   /*  need to be hsh */
             _printIntErr(i+1);
             _printErr(": ");
             _printErr(command.arg[0]);
             _printErr(": ");
             _printErr(command.output_message);
             _printErr("\n");
-            status = EXIT_FAILURE;
+            status = _EXIT_FAILURE;
         }
 
         if(command.output_status == STATUS_FAILED_PARTIAL){
@@ -54,7 +54,7 @@ int run(char **lines, size_t line_count)
             _printErr(": ");
             _printErr(command.output_message);
             _printErr("\n");
-            status = EXIT_FAILURE;
+            status = _EXIT_FAILURE;
         }
         
         free_struct(&command);
