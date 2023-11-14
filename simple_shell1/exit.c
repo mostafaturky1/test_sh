@@ -1,25 +1,29 @@
 #include "shell.h"
 
-/* int pro_Exit(str_cmd *command)
-{
-    return (NULL);
-}
+/**
+ * exit_command - Handle the exit command
+ * @command: Pointer to the command structure
+ *
+ * Return: None
+ * Exits the shell with the specified status or 0 if no argument is provided.
  */
 
-void exit_command(str_cmd *command) {
-   if (command->arg[1]) {
-        /* Parse the argument as an integer */
-        /*atoi not allow*/
-        int status = atoi(command->arg[1]);
-        /* Exit the shell with the specified status */
-        free_struct(command);
-        exit(status);
-    } else {
-        /* No argument provided, exit with status 0 */
-        free_struct(command);
-        exit(0); 
-    }
+void exit_command(str_cmd *command)
+{
+	command->executablePath = NULL;
+
+		/* No argument provided, exit with status 0 */
+		free_struct(command);
+		exit(0);
 }
+
+/**
+ * contol_C - Handle the SIGINT signal (Ctrl+C)
+ * @sig_num: Signal number
+ *
+ * Return: None
+ * Prints a new prompt if Ctrl+C is received.
+ */
 
 void contol_C(int sig_num)
 {

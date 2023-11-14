@@ -1,218 +1,159 @@
 #include "shell.h"
 
+
+
 /**
- * _printchar - writes the character c to stdout
- * @c: The character to print
+ * _strtok - Tokenize a string using delimiters
+ * @str: The string to tokenize
+ * @delim: The delimiters
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _printchar(char c)
-{
-	return (write(fileno(stdout), &c, 1));
-}
-
-/**
- * _printchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _printcharFile(FILE* stream, char c)
-{
-	return (write(fileno(stream), &c, 1));
-}
-
-/**
- * _printInt - writes the integer c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _printInt(size_t c)
-{
-    char buffer[20]; /* Assuming a maximum of 20 digits */
-    int i = 0;
-    int j;
-
-	if (c == 0) {
-        _printchar('0'); /* If the size_t value is 0, print '0' */
-        return 0;
-    }
-
-    /* Extract and store the digits in reverse order */
-    while (c > 0) {
-        buffer[i] = '0' + (c % 10); /* Convert the digit to a character */
-        c /= 10;
-        i++;
-    }
-
-    /* Print the digits in reverse order */
-    for (j = i - 1; j >= 0; j--) {
-        _printcharFile(stdout, buffer[j]);
-    }
-
-    return 0;
-}
-
-/**
- * _printIntErr - writes the integer c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _printIntErr(size_t c)
-{
-    char buffer[20]; /*  Assuming a maximum of 20 digits */
-    int i = 0;
-    int j;
-
-	if (c == 0) {
-        _printcharFile(stderr, '0'); /* If the size_t value is 0, print '0' */
-        return 0;
-    }
-
-    /* Extract and store the digits in reverse order */
-    while (c > 0) {
-        buffer[i] = '0' + (c % 10); /* Convert the digit to a character */
-        c /= 10;
-        i++;
-    }
-
-    /* Print the digits in reverse order */
-    for (j = i - 1; j >= 0; j--) {
-        _printcharFile(stderr, buffer[j]);
-    }
-
-    return 0;
-}
-
-/**
- * _print - prints a string
- * @str: pointer to string
+ * Return: Pointer to the next token, or NULL if no more tokens
  */
 
-void _print(char *str)
+char *_strtok(char *str, const char *delim)
 {
-	int i = 0;
+	static char *nextToken;
+	char *tokenStart;
 
-	while (str[i])
+	if (str != NULL)
 	{
-		_printcharFile(stdout ,str[i]);
-		i++;
+		nextToken = str;
+	}
+	if (nextToken == NULL || delim == NULL || *nextToken == '\0')
+	{
+		return (NULL);
+	}
+	while (*nextToken != '\0' && _strchr(delim, *nextToken) != NULL)
+	{
+		nextToken++;
+	}
+	if (*nextToken == '\0')
+	{
+		return (NULL);
+	}
+	tokenStart = nextToken;
+	while (*nextToken != '\0' && _strchr(delim, *nextToken) == NULL)
+	{
+		nextToken++;
+	}
+	if (*nextToken != '\0')
+	{
+		*nextToken = '\0';
+		nextToken++;
+	}
+	return (tokenStart);
+}
+
+/**
+ * _strdup - Duplicate a string
+ * @str: The string to duplicate
+ *
+ * Return: Pointer to the duplicated string, or NULL on failure
+ */
+
+char *_strdup(const char *str)
+{
+	size_t len;
+	char *copy;
+
+	if (str == NULL)
+	{
+		return (NULL);  /*  Handle the case of a NULL input string. */
+	}
+
+	len = _strlen(str) + 1;  /* +1 for the null terminator */
+
+	copy = (char *)malloc(len);
+	if (copy != NULL)
+	{
+		_strcpy(copy, str);
+	}
+
+	return (copy);
+}
+
+/**
+ * _strncmp - Compare two strings up to a specified number of characters
+ * @str1: Pointer to the first string
+ * @str2: Pointer to the second string
+ * @n: Number of characters to compare
+ *
+ * Return: 0 if equal, negative if str1 < str2, positive if str1 > str2
+ */
+
+int _strncmp(const char *str1, const char *str2, size_t n)
+{
+	while (n > 0 && *str1 && (*str1 == *str2))
+	{
+		str1++;
+		str2++;
+		n--;
+	}
+
+	if (n == 0)
+	{
+		return (0);
+	}
+	else
+	{
+		return (*(unsigned char *)str1 - *(unsigned char *)str2);
 	}
 }
-
 /**
- * _printErr - prints a string
- * @str: pointer to string
+ * _strstr - Locate a substring within a string
+ * @haystack: Pointer to the string to search
+ * @needle: Pointer to the substring to find
+ *
+ * Return: Pointer to first occurrence of the substring or NULL if not found
  */
 
-void _printErr(char *str)
+char *_strstr(const char *haystack, const char *needle)
 {
-	int i = 0;
-
-	while (str[i])
+	while (*haystack)
 	{
-		_printcharFile(stderr, str[i]);
-		i++;
+		const char *hay_ptr = haystack;
+		const char *needle_ptr = needle;
+
+		while (*hay_ptr && *needle_ptr && (*hay_ptr == *needle_ptr))
+		{
+			hay_ptr++;
+			needle_ptr++;
+		}
+
+		if (!(*needle_ptr))
+		{
+			return ((char *)haystack);
+		}
+
+		haystack++;
 	}
+	return (NULL);
 }
 
-char *_strtok(char *str, const char *delim) {
-    static char *nextToken = NULL;
-    char *tokenStart;
+/**
+ * _strncpy - Copy up to n characters from one string to another
+ * @dest: Pointer to the destination string
+ * @src: Pointer to the source string
+ * @n: Maximum number of characters to copy
+ *
+ * Return: Pointer to the destination string
+ */
 
-    if (str != NULL) {
-        nextToken = str;
-    }
-    if (nextToken == NULL || delim == NULL || *nextToken == '\0') {
-        return NULL;
-    }
-    while (*nextToken != '\0' && _strchr(delim, *nextToken) != NULL) {
-        nextToken++;
-    }
-    if (*nextToken == '\0') {
-        return NULL;
-    }
-    tokenStart = nextToken;
-    while (*nextToken != '\0' && _strchr(delim, *nextToken) == NULL) {
-        nextToken++;
-    }
-    if (*nextToken != '\0') {
-        *nextToken = '\0';
-        nextToken++;
-    }
-    return tokenStart;
-}
+char *_strncpy(char *dest, const char *src, size_t n)
+{
+	char *dest_ptr = dest;
+	const char *src_ptr = src;
+	size_t i;
 
-char* _strdup(const char* str) {
-    size_t len;
-    char* copy;
+	for (i = 0; i < n && src_ptr[i] != '\0'; i++)
+	{
+		dest_ptr[i] = src_ptr[i];
+	}
 
-    if (str == NULL) {
-        return NULL;  /*  Handle the case of a NULL input string. */
-    }
+	for (; i < n; i++)
+	{
+		dest_ptr[i] = '\0';
+	}
 
-    len = _strlen(str) + 1;  /* +1 for the null terminator */
-
-    copy = (char*)malloc(len);
-    if (copy != NULL) {
-        _strcpy(copy, str);
-    }
-
-    return copy;
-}
-
-int _strncmp(const char *str1, const char *str2, size_t n) {
-    while (n > 0 && *str1 && (*str1 == *str2)) {
-        str1++;
-        str2++;
-        n--;
-    }
-
-    if (n == 0) {
-        return 0;
-    } else {
-        return *(unsigned char *)str1 - *(unsigned char *)str2;
-    }
-}
-
-char *_strstr(const char *haystack, const char *needle) {
-    while (*haystack) {
-        const char *hay_ptr = haystack;
-        const char *needle_ptr = needle;
-
-        while (*hay_ptr && *needle_ptr && (*hay_ptr == *needle_ptr)) {
-            hay_ptr++;
-            needle_ptr++;
-        }
-
-        if (!(*needle_ptr)) {
-            return (char *)haystack;
-        }
-
-        haystack++;
-    }
-
-    return NULL;
-}
-
-char *_strncpy(char *dest, const char *src, size_t n) {
-    char *dest_ptr = dest;
-    const char *src_ptr = src;
-
-    size_t i;
-    for (i = 0; i < n && src_ptr[i] != '\0'; i++) {
-        dest_ptr[i] = src_ptr[i];
-    }
-
-    for (; i < n; i++) {
-        dest_ptr[i] = '\0';
-    }
-
-    return dest;
+	return (dest);
 }
