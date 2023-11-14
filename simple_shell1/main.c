@@ -32,7 +32,6 @@ int  run(char **lines, size_t line_count)
 
 	for (i = 0; i < line_count; i++)
 	{
-		status = EXIT_SUCCESS;
 		command.output_message = NULL;
 		command.output_status = STATUS_SUCCESS;
 
@@ -50,6 +49,9 @@ int  run(char **lines, size_t line_count)
 		{
 			free(lines[i]);
 			free(lines);
+			if (status == STATUS_ERROR)
+				command.output_status = STATUS_ERROR;
+
 			exit_command(&command);
 		}
 		execute(&command);

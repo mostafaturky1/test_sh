@@ -13,9 +13,8 @@ void exit_command(str_cmd *command)
 	int status = 0;
 	if (command->output_status == STATUS_ERROR)
 		status = command->output_status;
-		
-	command->executablePath = NULL;
 
+	command->executablePath = NULL;
 		/* No argument provided, exit with status 0 */
 		free_struct(command);
 		exit(status);
