@@ -19,6 +19,7 @@
 #define DELIM_PATH ";"
 #define STATUS_FAILED_FULL  -1
 #define STATUS_FAILED_PARTIAL  -2
+#define STATUS_ERROR  2
 #define STATUS_SUCCESS  1
 
 #define	_EXIT_FAILURE	127

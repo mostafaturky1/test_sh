@@ -75,6 +75,11 @@ int  run(char **lines, size_t line_count)
 			_printErr("\n");
 			status = _EXIT_FAILURE;
 		}
+		
+		if (command.output_status == STATUS_ERROR){
+			status = STATUS_ERROR;
+		} 
+
 		free_struct(&command);
 		free(lines[i]); /*  Free individual lines */
 	}
